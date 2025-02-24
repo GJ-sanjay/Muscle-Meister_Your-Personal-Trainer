@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { motion } from 'framer-motion';
 
 interface WorkoutCardProps {
   exercise: {
@@ -35,14 +36,20 @@ const WorkoutCard: React.FC<WorkoutCardProps> = ({ exercise }) => {
       const videoId = new URL(link).searchParams.get('v');
       return videoId ? `https://www.youtube.com/embed/${videoId}` : '';
     }
-
     return '';
   };
 
   const embedVideoLink = getEmbedVideoLink(exercise.videoLink);
 
   return (
-    <div className="bg-gray-800 p-6 rounded-lg shadow-lg max-w-md mx-auto">
+    <motion.div
+      className="bg-gray-800 p-6 rounded-lg shadow-lg max-w-md mx-auto"
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      whileHover={{ scale: 1.02 }}
+      transition={{ duration: 0.5 }}
+    >
       {/* Title */}
       <h3 className="text-2xl font-bold text-red-500 mb-4">{exercise.name}</h3>
 
@@ -93,7 +100,6 @@ const WorkoutCard: React.FC<WorkoutCardProps> = ({ exercise }) => {
 
       {/* Details Section */}
       <div className="flex flex-col gap-4 text-gray-300">
-        {/* Left-to-right layout */}
         <div className="flex justify-between items-center">
           <div>
             <p className="text-sm font-medium text-gray-400">Sets</p>
@@ -112,13 +118,14 @@ const WorkoutCard: React.FC<WorkoutCardProps> = ({ exercise }) => {
           </div>
         </div>
 
-        {/* Description */}
         <div>
           <p className="text-sm font-medium text-gray-400">Description</p>
-          <p className="text-base font-light">{exercise.description || 'No description provided.'}</p>
+          <p className="text-base font-light">
+            {exercise.description || 'No description provided.'}
+          </p>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

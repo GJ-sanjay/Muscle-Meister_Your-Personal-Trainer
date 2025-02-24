@@ -6,10 +6,13 @@ import WorkoutCard from "./WorkoutCard"
 import DietPlanCard from "./DietPlanCard"
 import Navbar from "./Navbar"
 
-const MainContent: React.FC<{ selectedDietType: string | null }> = ({ selectedDietType: initialSelectedDietType }) => {
+const MainContent: React.FC<{ selectedDietType: string | null }> = ({
+  selectedDietType: initialSelectedDietType,
+}) => {
   const [selectedDay, setSelectedDay] = useState<string>("Monday")
-  const [selectedDietType, setSelectedDietType] = useState<string | null>(initialSelectedDietType)
-  const [isPromptVisible, setIsPromptVisible] = useState(true)
+  const [selectedDietType, setSelectedDietType] = useState<string | null>(
+    initialSelectedDietType
+  )
 
   useEffect(() => {
     const today = new Date().toLocaleString("en-us", { weekday: "long" })
@@ -22,54 +25,61 @@ const MainContent: React.FC<{ selectedDietType: string | null }> = ({ selectedDi
 
   const handleDietSelection = (type: string) => {
     setSelectedDietType(type)
-    setIsPromptVisible(false)
   }
 
-  const currentWorkout = workoutPlans.find((plan: WorkoutPlan) => plan.day === selectedDay)
+  const currentWorkout = workoutPlans.find(
+    (plan: WorkoutPlan) => plan.day === selectedDay
+  )
 
-  const currentDietPlan = selectedDietType ? dietPlans.find((plan: DietPlan) => plan.type === selectedDietType) : null
+  const currentDietPlan = selectedDietType
+    ? dietPlans.find((plan: DietPlan) => plan.type === selectedDietType)
+    : null
 
-  const currentDayMeals = currentDietPlan ? currentDietPlan.days.find((day: DayPlan) => day.day === selectedDay) : null
+  const currentDayMeals = currentDietPlan
+    ? currentDietPlan.days.find((day: DayPlan) => day.day === selectedDay)
+    : null
 
   return (
     <div className="min-h-screen bg-gray-900 text-white font-bebas">
       <Navbar onDietSelect={handleDietSelection} />
       <div className="pt-20">
-        {/* Diet Goal Prompt */}
-        {isPromptVisible && (
-          <div className="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center z-50 px-4">
-            <div className="bg-gray-900 text-white rounded-lg shadow-lg p-6 md:p-8 text-center w-full max-w-lg">
-              <h2 className="text-2xl font-bold mb-4 text-red-500">Welcome! I'll be your personal trainer</h2>
-              <p className="mb-6 text-gray-400">Select a diet type to receive a customized plan.</p>
-              <div className="flex flex-wrap gap-4 justify-center">
-                {["Muscle Gain", "Fat Loss", "Shredded"].map((type) => (
-                  <button
-                    key={type}
-                    onClick={() => handleDietSelection(type)}
-                    className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-full w-full max-w-[150px]"
-                  >
-                    {type}
-                  </button>
-                ))}
-              </div>
+        {/* Integrated Diet Plan Selection Section */}
+        {!selectedDietType && (
+          <section className="py-8 bg-gradient-to-r from-purple-600 to-blue-600 text-center text-white">
+            <h2 className="text-3xl font-bold mb-4">Choose Your Diet Plan</h2>
+            <p className="mb-6">
+              Customize your training with a diet plan that fits your goals.
+            </p>
+            <div className="flex justify-center gap-4">
+              {["Muscle Gain", "Fat Loss", "Shredded"].map((type) => (
+                <button
+                  key={type}
+                  onClick={() => handleDietSelection(type)}
+                  className="bg-red-500 hover:bg-red-600 py-2 px-6 rounded-full font-bold transition-colors"
+                >
+                  {type}
+                </button>
+              ))}
             </div>
-          </div>
+          </section>
         )}
 
         {/* Day Selection (Monday-Saturday) */}
         <div className="py-4 px-4 text-center">
           <div className="flex flex-wrap justify-center gap-2">
-            {["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"].map((day) => (
-              <button
-                key={day}
-                onClick={() => setSelectedDay(day)}
-                className={`${
-                  selectedDay === day ? "bg-red-500" : "bg-gray-700"
-                } text-white font-bold py-2 px-4 rounded-full`}
-              >
-                {day}
-              </button>
-            ))}
+            {["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"].map(
+              (day) => (
+                <button
+                  key={day}
+                  onClick={() => setSelectedDay(day)}
+                  className={`${
+                    selectedDay === day ? "bg-red-500" : "bg-gray-700"
+                  } text-white font-bold py-2 px-4 rounded-full transition-colors`}
+                >
+                  {day}
+                </button>
+              )
+            )}
           </div>
         </div>
 
@@ -107,4 +117,3 @@ const MainContent: React.FC<{ selectedDietType: string | null }> = ({ selectedDi
 }
 
 export default MainContent
-

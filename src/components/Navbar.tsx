@@ -1,7 +1,7 @@
 "use client"
 
 import type React from "react"
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import { AnimatePresence, motion } from "framer-motion"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import {
@@ -13,6 +13,7 @@ import {
   faAppleAlt,
   faEnvelope,
   faHeartPulse,
+  faRunning, // used for Warm-Up
 } from "@fortawesome/free-solid-svg-icons"
 import { useNavigate } from "react-router-dom"
 
@@ -57,7 +58,7 @@ const Navbar: React.FC<{ onDietSelect: (dietType: string) => void }> = ({ onDiet
       <div className="container mx-auto flex justify-between items-center">
         <motion.div
           onClick={() => navigate("/")}
-          className="text-2xl font-bold text-red-600 cursor-pointer"
+          className="text-2xl font-bold text-red-600 cursor-pointer font-bebas"
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
         >
@@ -72,14 +73,17 @@ const Navbar: React.FC<{ onDietSelect: (dietType: string) => void }> = ({ onDiet
                 <motion.button
                   id={`shift-tab-${type}`}
                   onMouseEnter={() => handleSetSelected(type as "body" | "diet" | "contact")}
-                  onMouseLeave={() => handleSetSelected(null)}
+                  onMouseLeave={() => {}}
                   className={`flex items-center gap-1 rounded-full px-3 py-1.5 text-sm transition-colors ${
                     selected === type ? "bg-red-600 text-white" : "text-white hover:bg-red-600/20"
-                  }`}
+                  } font-bebas ${selected === type ? "font-bold" : "font-normal"}`}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
-                  <FontAwesomeIcon icon={type === "body" ? faDumbbell : faAppleAlt} className="mr-2" />
+                  <FontAwesomeIcon
+                    icon={type === "body" ? faDumbbell : faAppleAlt}
+                    className="mr-2"
+                  />
                   <span>{type === "body" ? "Body Part Workouts" : "Diet Plans"}</span>
                   <FontAwesomeIcon
                     icon={faChevronDown}
@@ -97,29 +101,42 @@ const Navbar: React.FC<{ onDietSelect: (dietType: string) => void }> = ({ onDiet
                 </AnimatePresence>
               </div>
             ))}
-            <motion.button
-              onClick={() => navigate("/cardio")}
-              className="text-white hover:text-red-500 font-semibold flex items-center"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <FontAwesomeIcon icon={faHeartPulse} className="mr-2" />
-              Cardio
-            </motion.button>
-            <motion.button
-              onClick={handleContactClick}
-              className="text-white hover:text-red-500 font-semibold flex items-center"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <FontAwesomeIcon icon={faEnvelope} className="mr-2" />
-              Contact Me
-            </motion.button>
           </div>
+          <motion.button
+            onClick={() => navigate("/cardio")}
+            className="text-white hover:text-red-500 font-semibold flex items-center font-bebas"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <FontAwesomeIcon icon={faHeartPulse} className="mr-2" />
+            Cardio
+          </motion.button>
+          <motion.button
+            onClick={() => navigate("/warmup")}
+            className="text-white hover:text-red-500 font-semibold flex items-center font-bebas"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <FontAwesomeIcon icon={faRunning} className="mr-2" />
+            Warm-Up
+          </motion.button>
+          <motion.button
+            onClick={handleContactClick}
+            className="text-white hover:text-red-500 font-semibold flex items-center font-bebas"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <FontAwesomeIcon icon={faEnvelope} className="mr-2" />
+            Contact Me
+          </motion.button>
         </div>
 
         {/* Mobile Menu Button */}
-        <motion.button onClick={() => setIsMenuOpen(!isMenuOpen)} className="md:hidden p-2" whileTap={{ scale: 0.9 }}>
+        <motion.button
+          onClick={() => setIsMenuOpen(!isMenuOpen)}
+          className="md:hidden p-2"
+          whileTap={{ scale: 0.9 }}
+        >
           <span className="block w-6 h-1 bg-white mb-1"></span>
           <span className="block w-6 h-1 bg-white mb-1"></span>
           <span className="block w-6 h-1 bg-white"></span>
@@ -147,12 +164,7 @@ const Navbar: React.FC<{ onDietSelect: (dietType: string) => void }> = ({ onDiet
               className="mt-12 space-y-4"
               variants={{
                 hidden: { opacity: 0 },
-                show: {
-                  opacity: 1,
-                  transition: {
-                    staggerChildren: 0.1,
-                  },
-                },
+                show: { opacity: 1, transition: { staggerChildren: 0.1 } },
               }}
               initial="hidden"
               animate="show"
@@ -167,16 +179,18 @@ const Navbar: React.FC<{ onDietSelect: (dietType: string) => void }> = ({ onDiet
                 >
                   <button
                     onClick={() => handleDropdownClick(type as "body" | "diet" | "contact")}
-                    className="w-full text-left py-2 text-white hover:text-red-500 transition-colors flex items-center"
+                    className="w-full text-left py-2 text-white hover:text-red-500 transition-colors flex items-center font-bebas"
                   >
                     <FontAwesomeIcon
-                      icon={type === "body" ? faDumbbell : type === "diet" ? faAppleAlt : faEnvelope}
+                      icon={type === "body" ? faDumbbell : faAppleAlt}
                       className="mr-2"
                     />
                     {type === "body" ? "Body Part Workouts" : "Diet Plans"}
                     <FontAwesomeIcon
                       icon={faChevronDown}
-                      className={`ml-2 transition-transform ${activeDropdown === type ? "rotate-180" : ""}`}
+                      className={`ml-2 transition-transform ${
+                        activeDropdown === type ? "rotate-180" : ""
+                      }`}
                     />
                   </button>
                   <AnimatePresence>
@@ -191,7 +205,7 @@ const Navbar: React.FC<{ onDietSelect: (dietType: string) => void }> = ({ onDiet
                           ? ["Chest", "Back", "Legs"].map((item) => (
                               <motion.li
                                 key={item}
-                                className="text-white hover:text-red-500 cursor-pointer py-2"
+                                className="text-white hover:text-red-500 cursor-pointer py-2 font-bebas font-bold"
                                 whileHover={{ scale: 1.05, x: 10 }}
                               >
                                 <FontAwesomeIcon icon={faDumbbell} className="mr-2" />
@@ -201,7 +215,7 @@ const Navbar: React.FC<{ onDietSelect: (dietType: string) => void }> = ({ onDiet
                           : ["Muscle Gain", "Fat Loss", "Shredded"].map((item, index) => (
                               <motion.li
                                 key={item}
-                                className="text-white hover:text-red-500 cursor-pointer py-2"
+                                className="text-white hover:text-red-500 cursor-pointer py-2 font-bebas font-bold"
                                 onClick={() => handleDietSelect(item)}
                                 whileHover={{ scale: 1.05, x: 10 }}
                               >
@@ -222,7 +236,7 @@ const Navbar: React.FC<{ onDietSelect: (dietType: string) => void }> = ({ onDiet
               >
                 <button
                   onClick={() => navigate("/cardio")}
-                  className="w-full text-left py-2 text-white hover:text-red-500 transition-colors flex items-center"
+                  className="w-full text-left py-2 text-white hover:text-red-500 transition-colors flex items-center font-bebas"
                 >
                   <FontAwesomeIcon icon={faHeartPulse} className="mr-2" />
                   Cardio
@@ -235,8 +249,22 @@ const Navbar: React.FC<{ onDietSelect: (dietType: string) => void }> = ({ onDiet
                 }}
               >
                 <button
+                  onClick={() => navigate("/warmup")}
+                  className="w-full text-left py-2 text-white hover:text-red-500 transition-colors flex items-center font-bebas"
+                >
+                  <FontAwesomeIcon icon={faRunning} className="mr-2" />
+                  Warm-Up
+                </button>
+              </motion.li>
+              <motion.li
+                variants={{
+                  hidden: { opacity: 0, x: -20 },
+                  show: { opacity: 1, x: 0 },
+                }}
+              >
+                <button
                   onClick={handleContactClick}
-                  className="w-full text-left py-2 text-white hover:text-red-500 transition-colors flex items-center"
+                  className="w-full text-left py-2 text-white hover:text-red-500 transition-colors flex items-center font-bebas"
                 >
                   <FontAwesomeIcon icon={faEnvelope} className="mr-2" />
                   Contact Me
@@ -255,20 +283,36 @@ const DropdownContent: React.FC<{
   onDietSelect?: (dietType: string) => void
   onMouseLeave: () => void
 }> = ({ type, onDietSelect, onMouseLeave }) => {
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null)
+
+  const handleMouseEnter = () => {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current)
+      timeoutRef.current = null
+    }
+  }
+
+  const handleMouseLeave = () => {
+    timeoutRef.current = setTimeout(() => {
+      onMouseLeave()
+    }, 700)
+  }
+
   return (
     <motion.div
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: 10 }}
       className="absolute left-0 top-full mt-2 w-64 rounded-lg border border-red-600 bg-black/95 backdrop-blur-sm p-4 shadow-xl"
-      onMouseLeave={onMouseLeave}
     >
-      <motion.ul className="space-y-2">
+      <motion.ul className="space-y-2 font-bebas font-bold">
         {type === "body"
           ? ["Chest", "Back", "Legs"].map((item) => (
               <motion.li
                 key={item}
-                className="text-white hover:text-red-500 cursor-pointer"
+                className="text-white hover:text-red-500 cursor-pointer py-2"
                 whileHover={{ scale: 1.05, x: 10 }}
               >
                 <FontAwesomeIcon icon={faDumbbell} className="mr-2" />
@@ -278,7 +322,7 @@ const DropdownContent: React.FC<{
           : ["Muscle Gain", "Fat Loss", "Shredded"].map((item, index) => (
               <motion.li
                 key={item}
-                className="text-white hover:text-red-500 cursor-pointer"
+                className="text-white hover:text-red-500 cursor-pointer py-2"
                 onClick={() => onDietSelect?.(item)}
                 whileHover={{ scale: 1.05, x: 10 }}
               >
@@ -292,4 +336,3 @@ const DropdownContent: React.FC<{
 }
 
 export default Navbar
-
