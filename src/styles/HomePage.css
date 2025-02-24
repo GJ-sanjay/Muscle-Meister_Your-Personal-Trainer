@@ -1,0 +1,272 @@
+/* Homepage Styles */
+.homepage {
+  position: relative;
+  height: 100vh;
+  width: 100%;
+  min-height: 100vh;
+  overflow-x: hidden;
+  overflow-y: hidden; /* Prevent vertical scrolling */
+  z-index: 1; /* Keep homepage content under navbar */
+  padding-top: 60px; /* Adjusted for better spacing for navbar visibility */
+}
+
+.video-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+  z-index: -1; /* Make sure video stays behind the other content */
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 0; /* Keep overlay below navbar */
+}
+
+/* Transparent Button Styles */
+.transparent-button {
+  background: transparent;
+  border: 2px solid white;
+  color: white;
+  padding: 10px 20px;
+  font-size: 1.2rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s, color 0.3s;
+}
+
+.transparent-button:hover {
+  background: white;
+  color: black;
+}
+
+.bebas-neue-regular {
+  font-family: "Bebas Neue", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .transparent-button {
+    padding: 8px 16px;
+    font-size: 1rem;
+  }
+
+  .homepage {
+    height: 100vh; /* Maintain full viewport height */
+    min-height: 100vh; /* Ensure the homepage takes at least 100vh */
+    padding-top: 60px; /* Adjust for navbar on small screens */
+  }
+
+  .overlay {
+    top: 5%; /* Adjust overlay position for better spacing */
+  }
+}
+
+/* Navbar Styles */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 9999; /* Ensure navbar stays above other content */
+  background-color: transparent; /* Transparent background */
+  color: white; /* White text */
+  padding: 15px 20px; /* Adjust the padding for the navbar */
+  display: flex;
+  justify-content: space-between; /* Optional: Adjust the navbar layout */
+  align-items: center;
+  box-shadow: none; /* Remove any shadows */
+}
+
+.navbar a {
+  color: white;
+  text-decoration: none;
+  padding: 8px 15px;
+  font-size: 1.1rem;
+}
+
+.navbar a:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 5px;
+}
+
+.navbar .navbar-title {
+  font-weight: bold;
+  color: red; /* Bold red for title */
+}
+
+.navbar a,
+.navbar .navbar-title {
+  transition: color 0.3s;
+}
+
+/* Hamburger Menu Dropdown */
+.navbar .hamburger {
+  display: none;
+  cursor: pointer;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.navbar .hamburger div {
+  width: 25px;
+  height: 3px;
+  background-color: white;
+}
+
+.navbar.active ul {
+  display: flex; /* Show the items when navbar is active */
+}
+
+@media (max-width: 768px) {
+  .navbar ul {
+    display: none; /* Hide the navbar items on mobile */
+    flex-direction: column;
+  }
+
+  .navbar .hamburger {
+    display: flex;
+  }
+
+  .navbar.active ul {
+    display: flex; /* Show the items when hamburger menu is clicked */
+  }
+
+  .navbar li ul {
+    position: static;
+    display: block; /* Stack the dropdown vertically */
+  }
+}
+
+/* Dropdown Styling */
+.navbar ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+}
+
+.navbar li {
+  position: relative; /* This is important to allow positioning of child items */
+}
+
+.navbar li ul {
+  display: none; /* Initially hide child menus */
+  position: absolute;
+  top: 100%; /* Place dropdown directly below the parent item */
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.8);
+  padding: 10px;
+  border-radius: 5px;
+  z-index: 10000; /* Ensure dropdown is above other content */
+}
+
+.navbar li:hover > ul {
+  display: block; /* Show the dropdown when hovering over the parent item */
+}
+
+.navbar li ul li {
+  padding: 5px 10px;
+}
+
+.navbar li ul li:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.navbar li ul li a {
+  color: white;
+  text-decoration: none;
+  display: block;
+}
+
+.navbar li ul li a:hover {
+  color: red;
+}
+
+.navbar .navbar-title {
+  font-weight: bold;
+  color: red;
+}
+
+/* Horizontal Menu Dropdown */
+.navbar ul.horizontal-menu {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+}
+
+.navbar ul.horizontal-menu li {
+  padding: 10px 15px;
+  position: relative; /* For dropdown positioning */
+}
+
+.navbar ul.horizontal-menu li .dropdown-button {
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 1.1rem;
+  cursor: pointer;
+  padding: 5px;
+}
+
+.navbar ul.horizontal-menu li:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+}
+
+.navbar ul.horizontal-menu li:hover > ul {
+  display: block; /* Show dropdown */
+}
+
+.navbar ul.horizontal-menu li ul {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.8);
+  padding: 10px;
+  border-radius: 5px;
+  z-index: 10000; /* Ensure dropdown is above other content */
+}
+
+.navbar ul.horizontal-menu li ul li {
+  padding: 5px 10px;
+  text-align: left;
+}
+
+.navbar ul.horizontal-menu li ul li button {
+  background: transparent;
+  border: none;
+  color: white;
+  cursor: pointer;
+  padding: 5px;
+}
+
+.navbar ul.horizontal-menu li ul li button:hover {
+  color: yellow;
+}
+
+@media (max-width: 768px) {
+  .navbar ul.horizontal-menu {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .navbar ul.horizontal-menu li {
+    width: 100%;
+    text-align: center;
+  }
+}
