@@ -1,83 +1,101 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { useLocation } from 'react-router-dom';
+"use client"
 
-interface FloatingItem {
-  content: string;
-}
-
-const floatingItems: FloatingItem[] = [
-  { content: '💪 Muscle' },
-  { content: '🔥 Burn' },
-  { content: '🏃‍♂️ Run' },
-  { content: 'Strength' },
-  { content: 'Lift' },
-  { content: 'Fitness' },
-  { content: '💦 Sweat' },
-  { content: 'Grind' },
-  { content: 'Pump' },
-  { content: 'Gains' },
-  { content: 'Endure' },
-  { content: 'Stretch' },
-  { content: 'Cardio' },
-  { content: '🏋️‍♀️' },
-  { content: '🏋️‍♂️' },
-  { content: 'Power' },
-  { content: 'Focus' },
-  { content: 'Energy' },
-];
-
-const random = (min: number, max: number) => Math.random() * (max - min) + min;
+import React, { useEffect, useRef } from "react"
+import { motion } from "framer-motion"
 
 const AnimatedBackground: React.FC = () => {
-  const location = useLocation();
-  
-  // Do not render the animated background on the homepage
-  if (location.pathname === '/') return null;
+  const canvasRef = useRef<HTMLCanvasElement>(null)
 
-  const numItems = 20;
+  useEffect(() => {
+    const canvas = canvasRef.current
+    if (!canvas) return
 
-  const renderItems = () => {
-    return Array.from({ length: numItems }).map((_, i) => {
-      const item = floatingItems[Math.floor(Math.random() * floatingItems.length)];
-      const left = random(0, 100);
-      const duration = random(8, 15);
-      const delay = random(0, 5);
-      const fontSize = random(16, 40);
-      const opacity = random(0.1, 0.3);
-      
-      return (
-        <motion.div
-          key={i}
-          className="absolute text-white/20 select-none pointer-events-none"
-          style={{ 
-            left: `${left}%`, 
-            fontSize: `${fontSize}px`,
-            opacity
-          }}
-          initial={{ bottom: -50, opacity: 0 }}
-          animate={{ 
-            bottom: '110%', 
-            opacity: [0, opacity, 0]
-          }}
-          transition={{ 
-            duration, 
-            delay, 
-            repeat: Infinity, 
-            ease: 'linear'
-          }}
-        >
-          {item.content}
-        </motion.div>
-      );
-    });
-  };
+    const ctx = canvas.getContext("2d")
+    if (!ctx) return
+
+    const particles: Particle[] = []
+    const particleCount = 100
+
+    class Particle {
+      x: number
+      y: number
+      size: number
+      speedX: number
+      speedY: number
+      color: string
+
+      constructor() {
+        // Use the non-null assertion operator because we know canvas is not null here.
+        this.x = Math.random() * canvas!.width
+        this.y = Math.random() * canvas!.height
+        this.size = Math.random() * 3
+        this.speedX = Math.random() * 3 - 1.5
+        this.speedY = Math.random() * 3 - 1.5
+        this.color = `hsl(${Math.random() * 360}, 50%, 50%)`
+      }
+
+      update() {
+        this.x += this.speedX
+        this.y += this.speedY
+
+        // Assert canvas is not null when accessing its dimensions
+        if (this.x > canvas!.width) this.x = 0
+        if (this.x < 0) this.x = canvas!.width
+        if (this.y > canvas!.height) this.y = 0
+        if (this.y < 0) this.y = canvas!.height
+      }
+
+      draw() {
+        if (!ctx) return
+        ctx.fillStyle = this.color
+        ctx.beginPath()
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2)
+        ctx.fill()
+      }
+    }
+
+    // Create particles
+    for (let i = 0; i < particleCount; i++) {
+      particles.push(new Particle())
+    }
+
+    const animate = () => {
+      if (!ctx || !canvas) return
+      ctx.fillStyle = "rgba(0, 0, 0, 0.1)"
+      ctx.fillRect(0, 0, canvas!.width, canvas!.height)
+
+      particles.forEach((particle) => {
+        particle.update()
+        particle.draw()
+      })
+
+      requestAnimationFrame(animate)
+    }
+
+    const handleResize = () => {
+      if (!canvas) return
+      canvas.width = window.innerWidth
+      canvas.height = window.innerHeight
+    }
+
+    handleResize()
+    window.addEventListener("resize", handleResize)
+    animate()
+
+    return () => {
+      window.removeEventListener("resize", handleResize)
+    }
+  }, [])
 
   return (
-    <div className="fixed inset-0 overflow-hidden pointer-events-none">
-      {renderItems()}
-    </div>
-  );
-};
+    <motion.canvas
+      ref={canvasRef}
+      className="fixed inset-0 -z-10"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 1 }}
+    />
+  )
+}
 
-export default AnimatedBackground;
+export default AnimatedBackground

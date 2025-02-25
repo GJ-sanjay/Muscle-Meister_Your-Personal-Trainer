@@ -8,6 +8,7 @@
   overflow-y: hidden; /* Prevent vertical scrolling */
   z-index: 1; /* Keep homepage content under navbar */
   padding-top: 60px; /* Adjusted for better spacing for navbar visibility */
+  
 }
 
 .video-background {

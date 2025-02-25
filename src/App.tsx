@@ -1,43 +1,73 @@
-import React, { useState } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import HomePage from "./components/HomePage";
-import MainContent from "./components/MainContent";
-import Navbar from "./components/Navbar";
-import CardioWorkout from "./components/CardioWorkout";
-import WarmUp from "./components/WarmUp";
-import CarRacingGame from "./components/CarRacingGame";
-import AnimatedBackground from "./components/AnimatedBackground";
-import "typeface-bebas-neue";
+"use client"
+
+import React, { useState, Suspense } from "react"
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom"
+import { motion, AnimatePresence } from "framer-motion"
+import HomePage from "./components/HomePage"
+import Navbar from "./components/Navbar"
+import LoadingSpinner from "./components/LoadingSpinner"
+
+// Lazy load components for better performance
+const MainContent = React.lazy(() => import("./components/MainContent"))
+const CardioWorkout = React.lazy(() => import("./components/CardioWorkout"))
+const WarmUp = React.lazy(() => import("./components/WarmUp"))
+const CarRacingGame = React.lazy(() => import("./components/CarRacingGame"))
 
 function App() {
-  const [selectedDietType, setSelectedDietType] = useState<string | null>(null);
+  const [selectedDietType, setSelectedDietType] = useState<string | null>(null)
 
   const handleDietSelect = (dietType: string) => {
-    setSelectedDietType(dietType);
-  };
+    setSelectedDietType(dietType)
+  }
 
   return (
-<Router>
-  <div className="relative min-h-screen">
-    {/* Background layer */}
-    <div className="fixed inset-0" style={{ zIndex: -1 }}>
-      <AnimatedBackground />
-    </div>
-    {/* Foreground content */}
-    <div className="relative z-10">
-      <Navbar onDietSelect={handleDietSelect} />
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/main" element={<MainContent selectedDietType={selectedDietType} />} />
-        <Route path="/cardio" element={<CardioWorkout />} />
-        <Route path="/warmup" element={<WarmUp />} />
-        <Route path="/game" element={<CarRacingGame />} />
-      </Routes>
-    </div>
-  </div>
-</Router>
-
-  );
+    <Router>
+      <div className="min-h-screen bg-black">
+        <Navbar onDietSelect={handleDietSelect} />
+        <Suspense fallback={<LoadingSpinner />}>
+          <AnimatePresence mode="wait">
+            <Routes>
+              <Route path="/" element={<HomePage />} />
+              <Route
+                path="/main"
+                element={
+                  <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+                    <MainContent selectedDietType={selectedDietType} />
+                  </motion.div>
+                }
+              />
+              <Route
+                path="/cardio"
+                element={
+                  <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+                    <CardioWorkout />
+                  </motion.div>
+                }
+              />
+              <Route
+                path="/warmup"
+                element={
+                  <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+                    <WarmUp />
+                  </motion.div>
+                }
+              />
+              <Route
+                path="/game"
+                element={
+                  <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+                    <CarRacingGame />
+                  </motion.div>
+                }
+              />
+              <Route path="*" element={<Navigate to="/" replace />} />
+            </Routes>
+          </AnimatePresence>
+        </Suspense>
+      </div>
+    </Router>
+  )
 }
 
-export default App;
+export default App
+

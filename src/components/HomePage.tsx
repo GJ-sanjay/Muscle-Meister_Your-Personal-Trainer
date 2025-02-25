@@ -1,7 +1,9 @@
+"use client";
+
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { PiBarbellFill } from "react-icons/pi";
 import { motion } from "framer-motion";
+import { PiBarbellFill } from "react-icons/pi";
 import TextTransition, { presets } from "react-text-transition";
 
 const TARGET_TEXT = "Explore Workouts";
@@ -10,68 +12,8 @@ const SHUFFLE_TIME = 50;
 const CHARS = "!@#$%^&*():{};|,.<>/?";
 const DEVELOPED_BY_TEXTS = ["Developed by", "SANJAY GJ", ":) THANK YOU"];
 
-const HomePage: React.FC = () => {
-  const navigate = useNavigate();
-
-  const videoLinks = [
-    "https://www.youtube.com/embed/i6vdsd2PKQs?autoplay=1&mute=1&loop=1&playlist=i6vdsd2PKQs",
-    "https://www.youtube.com/embed/Sc7LUjbKBHw?autoplay=1&mute=1&loop=1&playlist=Sc7LUjbKBHw",
-    "https://www.youtube.com/embed/SIIsgcLGb3w?autoplay=1&mute=1&loop=1&playlist=SIIsgcLGb3w",
-    "https://www.youtube.com/embed/qV-kw7l_ZNk?autoplay=1&mute=1&loop=1&playlist=qV-kw7l_ZNk",
-    "https://www.youtube.com/embed/ig17bjPE-hE?autoplay=1&mute=1&loop=1&playlist=ig17bjPE-hE",
-  ];
-
-  const [currentVideo, setCurrentVideo] = useState<string>("");
-  const [index, setIndex] = useState(0);
-
-  useEffect(() => {
-    const randomIndex = Math.floor(Math.random() * videoLinks.length);
-    setCurrentVideo(videoLinks[randomIndex]);
-  }, []);
-
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      setIndex((prevIndex) => (prevIndex + 1) % DEVELOPED_BY_TEXTS.length);
-    }, 3000);
-    return () => clearInterval(intervalId);
-  }, []);
-
-  return (
-    <div className="relative w-full h-screen overflow-hidden">
-      {/* Video Background */}
-      {currentVideo && (
-        <iframe
-          className="absolute top-0 left-0 w-full h-full scale-[1.3]"
-          src={currentVideo}
-          title="Background Video"
-          frameBorder="0"
-          allow="autoplay; fullscreen"
-          style={{ pointerEvents: "none" }}
-        ></iframe>
-      )}
-
-      {/* Overlay to darken video */}
-      <div className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-50"></div>
-
-
-      {/* Transparent Button */}
-      <div className="absolute bottom-10 w-full text-center">
-        <EncryptButton navigate={navigate} />
-      </div>
-
-      {/* Developed by Text List with Transition */}
-      <div className="absolute bottom-4 right-4 text-white text-lg font-mono">
-        <TextTransition springConfig={presets.wobbly}>
-          {DEVELOPED_BY_TEXTS[index]}
-        </TextTransition>
-      </div>
-    </div>
-  );
-};
-
 const EncryptButton = ({ navigate }: { navigate: ReturnType<typeof useNavigate> }) => {
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
-
   const [text, setText] = useState(TARGET_TEXT);
 
   const scramble = () => {
@@ -142,6 +84,64 @@ const EncryptButton = ({ navigate }: { navigate: ReturnType<typeof useNavigate> 
         className="duration-300 absolute inset-0 z-0 scale-125 bg-gradient-to-t from-black/0 from-40% via-black/100 to-black/0 to-60% opacity-0 transition-opacity group-hover:opacity-100"
       />
     </motion.button>
+  );
+};
+
+const HomePage: React.FC = () => {
+  const navigate = useNavigate();
+
+  const videoLinks = [
+    "https://www.youtube.com/embed/i6vdsd2PKQs?autoplay=1&mute=1&loop=1&playlist=i6vdsd2PKQs",
+    "https://www.youtube.com/embed/Sc7LUjbKBHw?autoplay=1&mute=1&loop=1&playlist=Sc7LUjbKBHw",
+    "https://www.youtube.com/embed/SIIsgcLGb3w?autoplay=1&mute=1&loop=1&playlist=SIIsgcLGb3w",
+    "https://www.youtube.com/embed/qV-kw7l_ZNk?autoplay=1&mute=1&loop=1&playlist=qV-kw7l_ZNk",
+    "https://www.youtube.com/embed/ig17bjPE-hE?autoplay=1&mute=1&loop=1&playlist=ig17bjPE-hE",
+  ];
+
+  const [currentVideo, setCurrentVideo] = useState<string>("");
+  const [index, setIndex] = useState(0);
+
+  useEffect(() => {
+    const randomIndex = Math.floor(Math.random() * videoLinks.length);
+    setCurrentVideo(videoLinks[randomIndex]);
+  }, []);
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setIndex((prevIndex) => (prevIndex + 1) % DEVELOPED_BY_TEXTS.length);
+    }, 3000);
+    return () => clearInterval(intervalId);
+  }, []);
+
+  return (
+    <div className="relative w-full h-screen overflow-hidden">
+      {/* Video Background */}
+      {currentVideo && (
+        <iframe
+          className="absolute top-0 left-0 w-full h-full scale-[1.3]"
+          src={currentVideo}
+          title="Background Video"
+          frameBorder="0"
+          allow="autoplay; fullscreen"
+          style={{ pointerEvents: "none" }}
+        ></iframe>
+      )}
+
+      {/* Overlay to darken video */}
+      <div className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-50"></div>
+
+      {/* Transparent Button */}
+      <div className="absolute bottom-10 w-full text-center">
+        <EncryptButton navigate={navigate} />
+      </div>
+
+      {/* Developed by Text Transition */}
+      <div className="absolute bottom-4 right-4 text-white text-lg font-mono">
+        <TextTransition springConfig={presets.wobbly}>
+          {DEVELOPED_BY_TEXTS[index]}
+        </TextTransition>
+      </div>
+    </div>
   );
 };
 
