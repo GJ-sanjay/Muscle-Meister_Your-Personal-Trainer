@@ -1,7 +1,6 @@
 "use client"
 
-import type React from "react"
-import { useState, useEffect, useRef } from "react"
+import React, { useState, useEffect, useRef } from "react"
 import { AnimatePresence, motion } from "framer-motion"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import {
@@ -13,7 +12,8 @@ import {
   faAppleAlt,
   faEnvelope,
   faHeartPulse,
-  faRunning, // used for Warm-Up
+  faRunning,
+  faGamepad,
 } from "@fortawesome/free-solid-svg-icons"
 import { useNavigate } from "react-router-dom"
 
@@ -36,7 +36,7 @@ const Navbar: React.FC<{ onDietSelect: (dietType: string) => void }> = ({ onDiet
   const handleDietSelect = (dietType: string) => {
     onDietSelect(dietType)
     setSelected(null)
-    navigate("/")
+    navigate("/main")
   }
 
   const handleContactClick = () => {
@@ -121,6 +121,15 @@ const Navbar: React.FC<{ onDietSelect: (dietType: string) => void }> = ({ onDiet
             Warm-Up
           </motion.button>
           <motion.button
+            onClick={() => navigate("/game")}
+            className="text-white hover:text-red-500 font-semibold flex items-center font-bebas"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <FontAwesomeIcon icon={faGamepad} className="mr-2" />
+            Play Game
+          </motion.button>
+          <motion.button
             onClick={handleContactClick}
             className="text-white hover:text-red-500 font-semibold flex items-center font-bebas"
             whileHover={{ scale: 1.05 }}
@@ -188,9 +197,7 @@ const Navbar: React.FC<{ onDietSelect: (dietType: string) => void }> = ({ onDiet
                     {type === "body" ? "Body Part Workouts" : "Diet Plans"}
                     <FontAwesomeIcon
                       icon={faChevronDown}
-                      className={`ml-2 transition-transform ${
-                        activeDropdown === type ? "rotate-180" : ""
-                      }`}
+                      className={`ml-2 transition-transform ${activeDropdown === type ? "rotate-180" : ""}`}
                     />
                   </button>
                   <AnimatePresence>
@@ -205,6 +212,7 @@ const Navbar: React.FC<{ onDietSelect: (dietType: string) => void }> = ({ onDiet
                           ? ["Chest", "Back", "Legs"].map((item) => (
                               <motion.li
                                 key={item}
+                                onClick={() => navigate(`/${item.toLowerCase()}`)}
                                 className="text-white hover:text-red-500 cursor-pointer py-2 font-bebas font-bold"
                                 whileHover={{ scale: 1.05, x: 10 }}
                               >
@@ -215,8 +223,8 @@ const Navbar: React.FC<{ onDietSelect: (dietType: string) => void }> = ({ onDiet
                           : ["Muscle Gain", "Fat Loss", "Shredded"].map((item, index) => (
                               <motion.li
                                 key={item}
-                                className="text-white hover:text-red-500 cursor-pointer py-2 font-bebas font-bold"
                                 onClick={() => handleDietSelect(item)}
+                                className="text-white hover:text-red-500 cursor-pointer py-2 font-bebas font-bold"
                                 whileHover={{ scale: 1.05, x: 10 }}
                               >
                                 <FontAwesomeIcon icon={[faHandFist, faFire, faDragon][index]} className="mr-2" />
@@ -256,6 +264,21 @@ const Navbar: React.FC<{ onDietSelect: (dietType: string) => void }> = ({ onDiet
                   Warm-Up
                 </button>
               </motion.li>
+              {/* Added Play Game to mobile menu */}
+              <motion.li
+                variants={{
+                  hidden: { opacity: 0, x: -20 },
+                  show: { opacity: 1, x: 0 },
+                }}
+              >
+                <button
+                  onClick={() => navigate("/game")}
+                  className="w-full text-left py-2 text-white hover:text-red-500 transition-colors flex items-center font-bebas"
+                >
+                  <FontAwesomeIcon icon={faGamepad} className="mr-2" />
+                  Play Game
+                </button>
+              </motion.li>
               <motion.li
                 variants={{
                   hidden: { opacity: 0, x: -20 },
@@ -283,6 +306,7 @@ const DropdownContent: React.FC<{
   onDietSelect?: (dietType: string) => void
   onMouseLeave: () => void
 }> = ({ type, onDietSelect, onMouseLeave }) => {
+  const navigate = useNavigate()
   const timeoutRef = useRef<NodeJS.Timeout | null>(null)
 
   const handleMouseEnter = () => {
@@ -312,6 +336,7 @@ const DropdownContent: React.FC<{
           ? ["Chest", "Back", "Legs"].map((item) => (
               <motion.li
                 key={item}
+                onClick={() => navigate(`/${item.toLowerCase()}`)}
                 className="text-white hover:text-red-500 cursor-pointer py-2"
                 whileHover={{ scale: 1.05, x: 10 }}
               >
@@ -322,8 +347,8 @@ const DropdownContent: React.FC<{
           : ["Muscle Gain", "Fat Loss", "Shredded"].map((item, index) => (
               <motion.li
                 key={item}
-                className="text-white hover:text-red-500 cursor-pointer py-2"
                 onClick={() => onDietSelect?.(item)}
+                className="text-white hover:text-red-500 cursor-pointer py-2"
                 whileHover={{ scale: 1.05, x: 10 }}
               >
                 <FontAwesomeIcon icon={[faHandFist, faFire, faDragon][index]} className="mr-2" />

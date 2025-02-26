@@ -12,6 +12,9 @@ const MainContent = React.lazy(() => import("./components/MainContent"))
 const CardioWorkout = React.lazy(() => import("./components/CardioWorkout"))
 const WarmUp = React.lazy(() => import("./components/WarmUp"))
 const CarRacingGame = React.lazy(() => import("./components/CarRacingGame"))
+const ChestWorkout = React.lazy(() => import("./components/ChestWorkout"))
+const BackWorkout = React.lazy(() => import("./components/BackWorkout"))
+const LegsWorkout = React.lazy(() => import("./components/LegsWorkout"))
 
 function App() {
   const [selectedDietType, setSelectedDietType] = useState<string | null>(null)
@@ -57,6 +60,30 @@ function App() {
                 element={
                   <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
                     <CarRacingGame />
+                  </motion.div>
+                }
+              />
+              <Route
+                path="/chest"
+                element={
+                  <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+                    <ChestWorkout />
+                  </motion.div>
+                }
+              />
+              <Route
+                path="/back"
+                element={
+                  <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+                    <BackWorkout />
+                  </motion.div>
+                }
+              />
+              <Route
+                path="/legs"
+                element={
+                  <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+                    <LegsWorkout />
                   </motion.div>
                 }
               />
