@@ -7,6 +7,7 @@ import HomePage from "./components/HomePage"
 import Navbar from "./components/Navbar"
 import LoadingSpinner from "./components/LoadingSpinner"
 import CoreWorkout from "./components/CoreWorkout"
+import AnimatedBackground from "./components/AnimatedBackground"
 
 // Lazy load components for better performance
 const MainContent = React.lazy(() => import("./components/MainContent"))
@@ -28,6 +29,7 @@ function App() {
     <Router>
       <div className="min-h-screen bg-black">
         <Navbar onDietSelect={handleDietSelect} />
+        <AnimatedBackground />
         <Suspense fallback={<LoadingSpinner />}>
           <AnimatePresence mode="wait">
             <Routes>
