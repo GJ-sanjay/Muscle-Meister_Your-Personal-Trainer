@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from "framer-motion"
 import HomePage from "./components/HomePage"
 import Navbar from "./components/Navbar"
 import LoadingSpinner from "./components/LoadingSpinner"
+import CoreWorkout from "./components/CoreWorkout"
 
 // Lazy load components for better performance
 const MainContent = React.lazy(() => import("./components/MainContent"))
@@ -86,7 +87,14 @@ function App() {
                     <LegsWorkout />
                   </motion.div>
                 }
-              />
+              /><Route
+              path="/core"
+              element={
+                <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+                  <CoreWorkout />
+                </motion.div>
+              }
+            />
               <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
           </AnimatePresence>

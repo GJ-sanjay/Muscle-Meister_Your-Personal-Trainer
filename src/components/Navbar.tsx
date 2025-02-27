@@ -14,6 +14,7 @@ import {
   faHeartPulse,
   faRunning,
   faGamepad,
+  faBars,
 } from "@fortawesome/free-solid-svg-icons"
 import { useNavigate } from "react-router-dom"
 
@@ -146,9 +147,7 @@ const Navbar: React.FC<{ onDietSelect: (dietType: string) => void }> = ({ onDiet
           className="md:hidden p-2"
           whileTap={{ scale: 0.9 }}
         >
-          <span className="block w-6 h-1 bg-white mb-1"></span>
-          <span className="block w-6 h-1 bg-white mb-1"></span>
-          <span className="block w-6 h-1 bg-white"></span>
+          <FontAwesomeIcon icon={faBars} className="text-white text-2xl" />
         </motion.button>
       </div>
 
@@ -209,7 +208,7 @@ const Navbar: React.FC<{ onDietSelect: (dietType: string) => void }> = ({ onDiet
                         className="ml-4 mt-2 space-y-2"
                       >
                         {type === "body"
-                          ? ["Chest", "Back", "Legs"].map((item) => (
+                          ? ["Chest", "Back", "Legs", "Core"].map((item) => (
                               <motion.li
                                 key={item}
                                 onClick={() => navigate(`/${item.toLowerCase()}`)}
@@ -264,7 +263,6 @@ const Navbar: React.FC<{ onDietSelect: (dietType: string) => void }> = ({ onDiet
                   Warm-Up
                 </button>
               </motion.li>
-              {/* Added Play Game to mobile menu */}
               <motion.li
                 variants={{
                   hidden: { opacity: 0, x: -20 },
@@ -333,7 +331,7 @@ const DropdownContent: React.FC<{
     >
       <motion.ul className="space-y-2 font-bebas font-bold">
         {type === "body"
-          ? ["Chest", "Back", "Legs"].map((item) => (
+          ? ["Chest", "Back", "Legs", "Core"].map((item) => (
               <motion.li
                 key={item}
                 onClick={() => navigate(`/${item.toLowerCase()}`)}

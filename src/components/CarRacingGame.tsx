@@ -1,312 +1,789 @@
-"use client"
+import React, { useState, useEffect, useRef, useCallback } from "react";
+import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 
-import React, {
-  useRef,
-  useState,
-  useEffect,
-  useCallback,
-  useMemo,
-  MutableRefObject,
-  forwardRef,
-} from "react"
-import { Canvas, useFrame } from "@react-three/fiber"
-import { OrbitControls, useGLTF } from "@react-three/drei"
-import { Vector3, Color } from "three"
-import { useNavigate } from "react-router-dom"
+// Game constants
+const GAME_WIDTH = 360;
+const GAME_HEIGHT = 600;
+const ROAD_WIDTH = 320;
+const LANE_WIDTH = ROAD_WIDTH / 3;
+const CAR_WIDTH = 40;
+const CAR_HEIGHT = 80;
+const OBSTACLE_SIZE = 40;
+const INITIAL_SPEED = 3;
+const MAX_SPEED = 12;
+const ACCELERATION = 0.02;
+const STEERING_SPEED = 4;
+const POLICE_CHASE_DELAY = 2000; // ms before police appears
+const BUILDING_FREQUENCY = 0.02;
 
-// --- Subcomponents ---
+// Game types
+type GameState = "start" | "playing" | "gameover";
+type ObstacleType = "oil" | "booster" | "shield" | "coin";
+type BuildingPosition = "left" | "right";
 
-// PlayerCar – loads the player's car model.
-const PlayerCar = forwardRef<any, { position: [number, number, number] }>(
-  ({ position }, ref) => {
-    const { scene } = useGLTF("/models/playerCar.gltf") as any
-    return <primitive object={scene} ref={ref} position={position} scale={[0.5, 0.5, 0.5]} />
-  }
-)
-
-// PoliceCar – chases the player's car.
-const PoliceCar: React.FC<{ position: [number, number, number]; target: MutableRefObject<any> }> = ({
-  position,
-  target,
-}) => {
-  const ref = useRef<any>()
-  const { scene } = useGLTF("/models/policeCar.gltf") as any
-  useFrame(() => {
-    if (target.current && ref.current) {
-      const direction = new Vector3().subVectors(target.current.position, ref.current.position).normalize()
-      ref.current.position.add(direction.multiplyScalar(0.1))
-    }
-  })
-  return <primitive object={scene} ref={ref} position={position} scale={[0.5, 0.5, 0.5]} />
+interface Obstacle {
+  id: number;
+  x: number;
+  y: number;
+  type: ObstacleType;
+  active: boolean;
 }
 
-// BonusCoin – rotates continuously.
-const BonusCoin: React.FC<{ position: [number, number, number] }> = ({ position }) => {
-  const ref = useRef<any>()
-  const { scene } = useGLTF("/models/coin.gltf") as any
-  useFrame((_, delta) => {
-    if (ref.current) {
-      ref.current.rotation.y += delta * 2
-    }
-  })
-  return <primitive object={scene} ref={ref} position={position} scale={[0.3, 0.3, 0.3]} />
+interface Building {
+  id: number;
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  position: BuildingPosition;
 }
 
-// Hazard – represents an oil/dirt patch that slows the car.
-const Hazard: React.FC<{ position: [number, number, number] }> = ({ position }) => {
-  return (
-    <mesh position={position} rotation-x={-Math.PI / 2}>
-      <planeGeometry args={[3, 3]} />
-      <meshStandardMaterial color="#333" />
-    </mesh>
-  )
+interface PlayerState {
+  x: number;
+  y: number;
+  speed: number;
+  angle: number; // for steering effect
+  isShielded: boolean;
+  isBoosting: boolean;
 }
 
-// RaceTrack – renders a long plane whose material color cycles over time.
-const RaceTrack: React.FC = () => {
-  const meshRef = useRef<any>()
-  useFrame((state, delta) => {
-    if (meshRef.current) {
-      const color = new Color()
-      color.setHSL((state.clock.getElapsedTime() * 0.05) % 1, 0.5, 0.1)
-      meshRef.current.material.color = color
-    }
-  })
-  return (
-    <mesh ref={meshRef} rotation-x={-Math.PI / 2} receiveShadow>
-      <planeGeometry args={[20, 2000]} />
-      <meshStandardMaterial color="#222" />
-    </mesh>
-  )
+interface PoliceState {
+  x: number;
+  y: number;
+  active: boolean;
+  catchingUp: boolean;
 }
 
-// --- Types for obstacles ---
-type ObstacleType = "coin" | "powerup" | "hazard"
-type Obstacle = {
-  id: number
-  x: number
-  z: number
-  type: ObstacleType
-  collected: boolean
-  speed: number
-}
+const CarRacingGame: React.FC = () => {
+  const navigate = useNavigate();
+  const [gameState, setGameState] = useState<GameState>("start");
+  const [score, setScore] = useState(0);
+  const [highScore, setHighScore] = useState(0);
+  const [distance, setDistance] = useState(0);
+  const [player, setPlayer] = useState<PlayerState>({
+    x: GAME_WIDTH / 2 - CAR_WIDTH / 2,
+    y: GAME_HEIGHT - CAR_HEIGHT - 40,
+    speed: INITIAL_SPEED,
+    angle: 0,
+    isShielded: false,
+    isBoosting: false
+  });
+  const [police, setPolice] = useState<PoliceState>({
+    x: GAME_WIDTH / 2 - CAR_WIDTH / 2,
+    y: GAME_HEIGHT + 100,
+    active: false,
+    catchingUp: false
+  });
+  const [obstacles, setObstacles] = useState<Obstacle[]>([]);
+  const [buildings, setBuildings] = useState<Building[]>([]);
+  const [powerupTimer, setPowerupTimer] = useState<number | null>(null);
+  const [isSteeringLeft, setIsSteeringLeft] = useState(false);
+  const [isSteeringRight, setIsSteeringRight] = useState(false);
+  const [isBoosting, setIsBoosting] = useState(false);
+  const gameLoopRef = useRef<number | null>(null);
+  const lastObstacleTimeRef = useRef<number>(0);
+  const frameCountRef = useRef<number>(0);
+  const gameContainerRef = useRef<HTMLDivElement>(null);
+  const roadPositionRef = useRef<number>(0);
+  const policeTimerRef = useRef<number | null>(null);
 
-// GameController – updates player movement and collision detection.
-const GameController: React.FC<{
-  playerRef: MutableRefObject<any>
-  obstacles: Obstacle[]
-  setObstacles: React.Dispatch<React.SetStateAction<Obstacle[]>>
-  onGameOver: () => void
-  onCollectBonus: (value: number) => void
-  setSlowMessage: React.Dispatch<React.SetStateAction<string>>
-  invincible: boolean
-}> = ({
-  playerRef,
-  obstacles,
-  setObstacles,
-  onGameOver,
-  onCollectBonus,
-  setSlowMessage,
-  invincible,
-}) => {
-  const keys = useRef<{ [key: string]: boolean }>({})
+  // Game assets
+  const roadImage = "https://img.freepik.com/free-vector/highway-road-desert-landscape-day-time_107791-10158.jpg";
+  const playerCarImage = "https://cdn-icons-png.flaticon.com/512/741/741407.png"; // Sports car
+  const policeCarImage = "https://cdn-icons-png.flaticon.com/512/2554/2554936.png"; // Police car
+  const oilImage = "https://cdn-icons-png.flaticon.com/512/2933/2933939.png";
+  const boosterImage = "https://cdn-icons-png.flaticon.com/512/1584/1584892.png";
+  const shieldImage = "https://cdn-icons-png.flaticon.com/512/1507/1507275.png";
+  const coinImage = "https://cdn-icons-png.flaticon.com/512/2933/2933116.png";
+  const buildingColors = ["#333333", "#444444", "#555555", "#666666"];
 
+  // Handle keyboard input
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      keys.current[e.key] = true
-    }
-    const handleKeyUp = (e: KeyboardEvent) => {
-      keys.current[e.key] = false
-    }
-    window.addEventListener("keydown", handleKeyDown)
-    window.addEventListener("keyup", handleKeyUp)
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown)
-      window.removeEventListener("keyup", handleKeyUp)
-    }
-  }, [])
+      if (gameState !== "playing") return;
 
-  const baseSpeed = 0.5
-  let currentSpeed = baseSpeed
-
-  useFrame(() => {
-    if (playerRef.current) {
-      if (keys.current["ArrowLeft"]) playerRef.current.position.x -= currentSpeed * 0.6
-      if (keys.current["ArrowRight"]) playerRef.current.position.x += currentSpeed * 0.6
-      if (keys.current["ArrowUp"]) playerRef.current.position.z -= currentSpeed
-      if (keys.current["ArrowDown"]) playerRef.current.position.z += currentSpeed
-
-      if (Math.abs(playerRef.current.position.x) > 9) {
-        if (!invincible) onGameOver()
+      switch (e.key) {
+        case "ArrowLeft":
+          setIsSteeringLeft(true);
+          break;
+        case "ArrowRight":
+          setIsSteeringRight(true);
+          break;
+        case "ArrowUp":
+          setIsBoosting(true);
+          break;
       }
+    };
 
-      obstacles.forEach((obs) => {
-        if (obs.collected) return
-        const dx = playerRef.current.position.x - obs.x
-        const dz = playerRef.current.position.z - obs.z
-        const distance = Math.sqrt(dx * dx + dz * dz)
-        if (distance < 2) {
-          if (obs.type === "coin") {
-            onCollectBonus(5)
-            obs.collected = true
-          } else if (obs.type === "powerup") {
-            onCollectBonus(0) // Trigger invincibility externally.
-            obs.collected = true
-          } else if (obs.type === "hazard") {
-            if (!invincible) {
-              currentSpeed = baseSpeed * 0.3
-              setSlowMessage("Hey! Watch where you're driving!")
-              setTimeout(() => {
-                currentSpeed = baseSpeed
-                setSlowMessage("")
-              }, 3000)
+    const handleKeyUp = (e: KeyboardEvent) => {
+      switch (e.key) {
+        case "ArrowLeft":
+          setIsSteeringLeft(false);
+          break;
+        case "ArrowRight":
+          setIsSteeringRight(false);
+          break;
+        case "ArrowUp":
+          setIsBoosting(false);
+          break;
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    window.addEventListener("keyup", handleKeyUp);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+      window.removeEventListener("keyup", handleKeyUp);
+    };
+  }, [gameState]);
+
+  // Generate random obstacle
+  const generateObstacle = useCallback(() => {
+    const now = Date.now();
+    if (now - lastObstacleTimeRef.current < 1000) return;
+    
+    lastObstacleTimeRef.current = now;
+    
+    // Random position within road bounds
+    const roadLeftEdge = (GAME_WIDTH - ROAD_WIDTH) / 2;
+    const x = roadLeftEdge + Math.random() * (ROAD_WIDTH - OBSTACLE_SIZE);
+    
+    // Random obstacle type
+    const types: ObstacleType[] = ["oil", "booster", "shield", "coin"];
+    const weights = [0.4, 0.2, 0.2, 0.6]; // Higher number = more common
+    
+    let totalWeight = weights.reduce((a, b) => a + b, 0);
+    let random = Math.random() * totalWeight;
+    let selectedType: ObstacleType = "oil";
+    
+    for (let i = 0; i < types.length; i++) {
+      if (random < weights[i]) {
+        selectedType = types[i];
+        break;
+      }
+      random -= weights[i];
+    }
+    
+    setObstacles(prev => [
+      ...prev,
+      {
+        id: Date.now(),
+        x,
+        y: -OBSTACLE_SIZE,
+        type: selectedType,
+        active: true
+      }
+    ]);
+  }, []);
+
+  // Generate buildings
+  const generateBuildings = useCallback(() => {
+    if (Math.random() > BUILDING_FREQUENCY) return;
+    
+    const roadLeftEdge = (GAME_WIDTH - ROAD_WIDTH) / 2;
+    const position: BuildingPosition = Math.random() > 0.5 ? "left" : "right";
+    const width = 30 + Math.random() * 40;
+    const height = 80 + Math.random() * 120;
+    
+    const x = position === "left" 
+      ? Math.max(0, roadLeftEdge - width - Math.random() * 20)
+      : roadLeftEdge + ROAD_WIDTH + Math.random() * 20;
+    
+    setBuildings(prev => [
+      ...prev,
+      {
+        id: Date.now(),
+        x,
+        y: -height,
+        width,
+        height,
+        position
+      }
+    ]);
+  }, []);
+
+  // Check collisions
+  const checkCollisions = useCallback(() => {
+    const playerRect = {
+      left: player.x,
+      right: player.x + CAR_WIDTH,
+      top: player.y,
+      bottom: player.y + CAR_HEIGHT
+    };
+
+    // Check obstacle collisions
+    setObstacles(prev => prev.map(obstacle => {
+      if (!obstacle.active) return obstacle;
+
+      const obstacleRect = {
+        left: obstacle.x,
+        right: obstacle.x + OBSTACLE_SIZE,
+        top: obstacle.y,
+        bottom: obstacle.y + OBSTACLE_SIZE
+      };
+
+      // Check for collision
+      if (
+        playerRect.left < obstacleRect.right &&
+        playerRect.right > obstacleRect.left &&
+        playerRect.top < obstacleRect.bottom &&
+        playerRect.bottom > obstacleRect.top
+      ) {
+        // Handle collision based on obstacle type
+        switch (obstacle.type) {
+          case "oil":
+            if (!player.isShielded) {
+              // Slow down and make steering more difficult temporarily
+              setPlayer(prev => ({
+                ...prev,
+                speed: Math.max(prev.speed * 0.7, INITIAL_SPEED * 0.5)
+              }));
             }
-          }
+            break;
+          case "booster":
+            handleBoost();
+            break;
+          case "shield":
+            handleShield();
+            break;
+          case "coin":
+            setScore(prev => prev + 50);
+            break;
         }
-      })
+        return { ...obstacle, active: false };
+      }
+      return obstacle;
+    }));
 
-      setObstacles((prev) =>
-        prev.filter((obs) => obs.z < playerRef.current.position.z + 20 && !obs.collected)
-      )
+    // Check police collision
+    if (police.active) {
+      const policeRect = {
+        left: police.x,
+        right: police.x + CAR_WIDTH,
+        top: police.y,
+        bottom: police.y + CAR_HEIGHT
+      };
+
+      if (
+        playerRect.left < policeRect.right &&
+        playerRect.right > policeRect.left &&
+        playerRect.top < policeRect.bottom &&
+        playerRect.bottom > policeRect.top
+      ) {
+        if (!player.isShielded) {
+          setGameState("gameover");
+        } else {
+          // Shield protects from police once
+          setPlayer(prev => ({ ...prev, isShielded: false }));
+          setPolice(prev => ({ 
+            ...prev, 
+            y: prev.y + 200, // Push police back
+            catchingUp: true 
+          }));
+        }
+      }
     }
-  })
 
-  return null
-}
+    // Check road boundaries
+    const roadLeftEdge = (GAME_WIDTH - ROAD_WIDTH) / 2;
+    const roadRightEdge = roadLeftEdge + ROAD_WIDTH;
+    
+    if (playerRect.left < roadLeftEdge || playerRect.right > roadRightEdge) {
+      if (!player.isShielded) {
+        setGameState("gameover");
+      } else {
+        // Shield protects from boundary once
+        setPlayer(prev => ({ 
+          ...prev, 
+          isShielded: false,
+          x: Math.max(roadLeftEdge, Math.min(roadRightEdge - CAR_WIDTH, prev.x))
+        }));
+      }
+    }
+  }, [player, police]);
 
-// --- Main CarRacingGame Component ---
-const CarRacingGame: React.FC = () => {
-  const [gameState, setGameState] = useState<"start" | "playing" | "gameover">("start")
-  const [score, setScore] = useState(0)
-  const [slowMessage, setSlowMessage] = useState("")
-  const [invincible, setInvincible] = useState(false)
-  const playerCarRef = useRef<any>(null)
-  const [obstacles, setObstacles] = useState<Obstacle[]>([])
-  const [nextObstacleId, setNextObstacleId] = useState(1)
+  // Handle boost powerup
+  const handleBoost = () => {
+    // Clear existing powerup timer
+    if (powerupTimer !== null) {
+      clearTimeout(powerupTimer);
+    }
 
-  // Spawn obstacles randomly.
-  useEffect(() => {
-    if (gameState !== "playing") return
-    const spawnInterval = setInterval(() => {
-      setObstacles((prev) => [
+    setPlayer(prev => ({ ...prev, isBoosting: true }));
+    setPlayer(prev => ({ ...prev, speed: Math.min(prev.speed * 1.5, MAX_SPEED) }));
+    
+    setPowerupTimer(window.setTimeout(() => {
+      setPlayer(prev => ({ ...prev, isBoosting: false }));
+      setPowerupTimer(null);
+    }, 3000));
+  };
+
+  // Handle shield powerup
+  const handleShield = () => {
+    // Clear existing powerup timer
+    if (powerupTimer !== null) {
+      clearTimeout(powerupTimer);
+    }
+
+    setPlayer(prev => ({ ...prev, isShielded: true }));
+    
+    setPowerupTimer(window.setTimeout(() => {
+      setPlayer(prev => ({ ...prev, isShielded: false }));
+      setPowerupTimer(null);
+    }, 5000));
+  };
+
+  // Start police chase
+  const startPoliceChase = useCallback(() => {
+    setPolice(prev => ({
+      ...prev,
+      active: true,
+      y: GAME_HEIGHT + 100,
+      catchingUp: true
+    }));
+  }, []);
+
+  // Game loop
+  const gameLoop = useCallback(() => {
+    if (gameState !== "playing") return;
+
+    frameCountRef.current += 1;
+    
+    // Update road position (for scrolling effect)
+    roadPositionRef.current += player.speed;
+    if (roadPositionRef.current >= 600) {
+      roadPositionRef.current = 0;
+    }
+
+    // Move player based on steering input
+    setPlayer(prev => {
+      let newX = prev.x;
+      let newAngle = prev.angle;
+      
+      if (isSteeringLeft) {
+        newX -= STEERING_SPEED;
+        newAngle = Math.max(prev.angle - 2, -15);
+      } else if (isSteeringRight) {
+        newX += STEERING_SPEED;
+        newAngle = Math.min(prev.angle + 2, 15);
+      } else {
+        // Return to center angle when not steering
+        newAngle = prev.angle > 0 ? Math.max(prev.angle - 1, 0) : Math.min(prev.angle + 1, 0);
+      }
+      
+      return {
         ...prev,
-        {
-          id: nextObstacleId,
-          x: (Math.random() - 0.5) * 10,
-          z: -Math.random() * 1000 - 20,
-          type: Math.random() < 0.6 ? "coin" : Math.random() < 0.8 ? "hazard" : "powerup",
-          collected: false,
-          speed: 0.1 + Math.random() * 0.2,
-        },
-      ])
-      setNextObstacleId((id) => id + 1)
-    }, 1500)
-    return () => clearInterval(spawnInterval)
-  }, [gameState, nextObstacleId])
+        x: newX,
+        angle: newAngle
+      };
+    });
 
+    // Apply boost if button is pressed
+    if (isBoosting && !player.isBoosting) {
+      handleBoost();
+    }
+
+    // Update obstacles
+    setObstacles(prev => 
+      prev
+        .filter(obs => obs.y < GAME_HEIGHT) // Remove off-screen obstacles
+        .map(obs => ({
+          ...obs,
+          y: obs.y + player.speed
+        }))
+    );
+
+    // Update buildings
+    setBuildings(prev => 
+      prev
+        .filter(building => building.y < GAME_HEIGHT) // Remove off-screen buildings
+        .map(building => ({
+          ...building,
+          y: building.y + player.speed * 0.8 // Buildings move slightly slower for parallax
+        }))
+    );
+
+    // Update police car
+    if (police.active) {
+      setPolice(prev => {
+        let newY = prev.y;
+        let newX = prev.x;
+        
+        // Police follows player's x position with some delay
+        const targetX = player.x;
+        newX += (targetX - newX) * 0.03;
+        
+        // Police tries to catch up if behind
+        if (prev.catchingUp) {
+          newY -= 1; // Police moves up (towards player)
+          
+          // If police gets close enough, switch to normal following
+          if (player.y - newY < 200) {
+            newY = player.y + 150; // Stay at a fixed distance behind player
+            return { ...prev, y: newY, x: newX, catchingUp: false };
+          }
+        } else {
+          // Maintain distance
+          newY = player.y + 150;
+        }
+        
+        return { ...prev, y: newY, x: newX };
+      });
+    }
+
+    // Generate new obstacles
+    if (frameCountRef.current % 60 === 0) {
+      generateObstacle();
+    }
+
+    // Generate buildings
+    generateBuildings();
+
+    // Check for collisions
+    checkCollisions();
+
+    // Update score and distance
+    setDistance(prev => prev + player.speed / 10);
+    setScore(prev => prev + Math.floor(player.speed / 5));
+    
+    // Gradually increase speed if not boosting
+    if (!player.isBoosting) {
+      setPlayer(prev => ({
+        ...prev,
+        speed: Math.min(prev.speed + ACCELERATION, MAX_SPEED)
+      }));
+    }
+
+    // Continue the game loop
+    gameLoopRef.current = requestAnimationFrame(gameLoop);
+  }, [
+    gameState,
+    isSteeringLeft,
+    isSteeringRight,
+    isBoosting,
+    player,
+    police,
+    generateObstacle,
+    generateBuildings,
+    checkCollisions
+  ]);
+
+  // Start/stop game loop based on game state
   useEffect(() => {
-    if (obstacles.some((o) => o.type === "powerup" && o.collected)) {
-      setInvincible(true)
-      setTimeout(() => setInvincible(false), 5000)
+    if (gameState === "playing") {
+      gameLoopRef.current = requestAnimationFrame(gameLoop);
+      
+      // Start police chase after delay
+      policeTimerRef.current = window.setTimeout(startPoliceChase, POLICE_CHASE_DELAY);
+    } else if (gameState === "gameover") {
+      if (gameLoopRef.current) {
+        cancelAnimationFrame(gameLoopRef.current);
+      }
+      
+      if (policeTimerRef.current) {
+        clearTimeout(policeTimerRef.current);
+      }
+      
+      // Update high score
+      if (score > highScore) {
+        setHighScore(score);
+      }
     }
-  }, [obstacles])
 
+    return () => {
+      if (gameLoopRef.current) {
+        cancelAnimationFrame(gameLoopRef.current);
+      }
+      
+      if (policeTimerRef.current) {
+        clearTimeout(policeTimerRef.current);
+      }
+    };
+  }, [gameState, gameLoop, score, highScore, startPoliceChase]);
+
+  // Start the game
   const startGame = () => {
-    setScore(0)
-    setObstacles([])
-    setGameState("playing")
-    setInvincible(false)
-    if (playerCarRef.current) {
-      playerCarRef.current.position.set(0, 0.5, 0)
-    }
-  }
+    setGameState("playing");
+    setScore(0);
+    setDistance(0);
+    setPlayer({
+      x: GAME_WIDTH / 2 - CAR_WIDTH / 2,
+      y: GAME_HEIGHT - CAR_HEIGHT - 40,
+      speed: INITIAL_SPEED,
+      angle: 0,
+      isShielded: false,
+      isBoosting: false
+    });
+    setPolice({
+      x: GAME_WIDTH / 2 - CAR_WIDTH / 2,
+      y: GAME_HEIGHT + 100,
+      active: false,
+      catchingUp: false
+    });
+    setObstacles([]);
+    setBuildings([]);
+    frameCountRef.current = 0;
+    lastObstacleTimeRef.current = 0;
+    roadPositionRef.current = 0;
+  };
 
-  const handleGameOver = () => {
-    setGameState("gameover")
-  }
-
-  const handleCollectBonus = (value: number) => {
-    setScore((prev) => prev + value)
-  }
+  // Return to main menu
+  const returnToMenu = () => {
+    navigate('/main');
+  };
 
   return (
-    <div className="min-h-screen bg-black text-white font-bebas pt-20 px-4 flex flex-col items-center relative">
-      {gameState === "start" && (
-        <div className="text-center">
-          <h1 className="text-4xl font-bold text-red-500 mb-4">Futuristic Car Racing</h1>
-          <p className="mb-4">
-            Race through neon-lit roads, dodge hazards, collect coins, grab power-ups, and outrun the cops!
-          </p>
-          <button onClick={startGame} className="bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-8 rounded-full">
-            Start Race
-          </button>
-        </div>
-      )}
-      {gameState === "playing" && (
-        <>
-          <Canvas shadows camera={{ position: [0, 5, 15], fov: 60 }}>
-            <ambientLight intensity={0.4} />
-            <directionalLight position={[10, 10, 5]} intensity={1} castShadow />
-            <RaceTrack />
-            <PlayerCar position={[0, 0.5, 0]} ref={playerCarRef} />
-            <PoliceCar position={[3, 0.5, -5]} target={playerCarRef} />
-            {obstacles.map((obs) => {
-              if (obs.collected) return null
-              if (obs.type === "coin" || obs.type === "powerup") {
-                return <BonusCoin key={obs.id} position={[obs.x, 0.5, obs.z]} />
-              } else {
-                return <Hazard key={obs.id} position={[obs.x, 0.01, obs.z]} />
-              }
-            })}
-            <GameController
-              playerRef={playerCarRef}
-              obstacles={obstacles}
-              setObstacles={setObstacles}
-              onGameOver={handleGameOver}
-              onCollectBonus={handleCollectBonus}
-              setSlowMessage={setSlowMessage}
-              invincible={invincible}
+    <div className="min-h-screen pt-20 px-4 relative z-10 flex items-center justify-center">
+      <motion.div
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={{ opacity: 1, scale: 1 }}
+        className="w-full max-w-md"
+      >
+        {gameState === "start" && (
+          <div className="text-center mb-8">
+            <h1 className="text-5xl font-bold text-red-500 mb-6">GETAWAY DRIVER</h1>
+            <p className="text-gray-300 mb-8">
+              Outrun the police, dodge obstacles, and collect power-ups in this high-speed chase!
+            </p>
+            <div className="flex flex-col gap-4">
+              <button
+                onClick={startGame}
+                className="bg-red-600 hover:bg-red-700 text-white py-3 px-6 rounded-lg text-xl font-bold transition-all transform hover:scale-105"
+              >
+                START RACE
+              </button>
+              <button
+                onClick={returnToMenu}
+                className="bg-gray-800 hover:bg-gray-700 text-white py-2 px-4 rounded-lg transition-all"
+              >
+                Back to Menu
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* Game container */}
+        <div 
+          ref={gameContainerRef}
+          className={`relative overflow-hidden rounded-lg shadow-2xl border-2 border-red-500 ${gameState === "start" ? "hidden" : "block"}`}
+          style={{ 
+            width: GAME_WIDTH, 
+            height: GAME_HEIGHT,
+            backgroundColor: "#222"
+          }}
+        >
+          {/* Road background with scrolling effect */}
+          <div 
+            className="absolute inset-0"
+            style={{
+              backgroundImage: `url(${roadImage})`,
+              backgroundSize: 'cover',
+              backgroundPosition: `center ${roadPositionRef.current}px`,
+              backgroundRepeat: 'repeat-y',
+              width: GAME_WIDTH,
+              height: GAME_HEIGHT * 2,
+              top: -roadPositionRef.current % GAME_HEIGHT
+            }}
+          />
+
+          {/* Buildings */}
+          {buildings.map(building => (
+            <div
+              key={building.id}
+              className="absolute"
+              style={{
+                left: building.x,
+                top: building.y,
+                width: building.width,
+                height: building.height,
+                backgroundColor: buildingColors[Math.floor(Math.random() * buildingColors.length)],
+                boxShadow: '0 0 10px rgba(0,0,0,0.5)'
+              }}
             />
-            <OrbitControls enableZoom={false} />
-          </Canvas>
-          <div className="absolute top-24 left-4 text-2xl font-bold text-white z-50">
-            Score: {score}
+          ))}
+
+          {/* Road boundaries */}
+          <div 
+            className="absolute top-0 bottom-0 bg-white"
+            style={{ 
+              left: (GAME_WIDTH - ROAD_WIDTH) / 2 - 5,
+              width: 5
+            }}
+          />
+          <div 
+            className="absolute top-0 bottom-0 bg-white"
+            style={{ 
+              left: (GAME_WIDTH - ROAD_WIDTH) / 2 + ROAD_WIDTH,
+              width: 5
+            }}
+          />
+
+          {/* Lane markings */}
+          <div className="absolute inset-0">
+            {Array.from({ length: 20 }).map((_, i) => (
+              <div 
+                key={i} 
+                className="absolute left-1/2 w-4 h-12 bg-white bg-opacity-80"
+                style={{ 
+                  marginLeft: -2,
+                  top: ((i * 40) - roadPositionRef.current) % GAME_HEIGHT
+                }}
+              />
+            ))}
           </div>
-          {invincible && (
-            <div className="absolute top-24 right-4 text-2xl font-bold text-yellow-400 z-50">
-              INVINCIBLE!
+
+          {/* Obstacles */}
+          {obstacles.filter(o => o.active).map(obstacle => (
+            <div
+              key={obstacle.id}
+              className="absolute"
+              style={{
+                width: OBSTACLE_SIZE,
+                height: OBSTACLE_SIZE,
+                left: obstacle.x,
+                top: obstacle.y,
+                backgroundImage: `url(${
+                  obstacle.type === "oil" 
+                    ? oilImage 
+                    : obstacle.type === "booster" 
+                      ? boosterImage 
+                      : obstacle.type === "shield" 
+                        ? shieldImage 
+                        : coinImage
+                })`,
+                backgroundSize: 'contain',
+                backgroundPosition: 'center',
+                backgroundRepeat: 'no-repeat',
+                filter: obstacle.type === "shield" || obstacle.type === "booster" 
+                  ? 'drop-shadow(0 0 5px #44ffff)' 
+                  : 'none',
+                zIndex: 10
+              }}
+            />
+          ))}
+
+          {/* Police car */}
+          {police.active && (
+            <div
+              className="absolute"
+              style={{
+                width: CAR_WIDTH,
+                height: CAR_HEIGHT,
+                left: police.x,
+                top: police.y,
+                backgroundImage: `url(${policeCarImage})`,
+                backgroundSize: 'contain',
+                backgroundPosition: 'center',
+                backgroundRepeat: 'no-repeat',
+                filter: 'drop-shadow(0 0 5px #0000ff)',
+                zIndex: 20
+              }}
+            >
+              {/* Police lights */}
+              <div className="absolute top-0 left-0 right-0 flex justify-center">
+                <div className="w-3 h-3 bg-red-500 rounded-full animate-pulse mr-2"></div>
+                <div className="w-3 h-3 bg-blue-500 rounded-full animate-pulse ml-2" style={{ animationDelay: '0.5s' }}></div>
+              </div>
             </div>
           )}
-          {slowMessage && (
-            <div className="absolute top-32 left-1/2 transform -translate-x-1/2 text-xl text-red-400 z-50">
-              {slowMessage}
+
+          {/* Player car */}
+          <div
+            className={`absolute transition-transform ${player.isShielded ? 'ring-4 ring-blue-500 ring-opacity-70 rounded-full' : ''}`}
+            style={{
+              width: CAR_WIDTH,
+              height: CAR_HEIGHT,
+              left: player.x,
+              top: player.y,
+              backgroundImage: `url(${playerCarImage})`,
+              backgroundSize: 'contain',
+              backgroundPosition: 'center',
+              backgroundRepeat: 'no-repeat',
+              filter: player.isBoosting ? 'drop-shadow(0 0 8px #ff4444)' : 'none',
+              transform: `rotate(${player.angle}deg) scale(${player.isBoosting ? 1.1 : 1})`,
+              zIndex: 30
+            }}
+          >
+            {/* Boost effect */}
+            {player.isBoosting && (
+              <div className="absolute -bottom-4 left-1/2 transform -translate-x-1/2">
+                <div className="w-6 h-10 bg-gradient-to-t from-red-600 to-yellow-400 rounded-full animate-pulse"></div>
+              </div>
+            )}
+          </div>
+
+          {/* Game over overlay */}
+          {gameState === "gameover" && (
+            <div className="absolute inset-0 bg-black bg-opacity-80 flex flex-col items-center justify-center z-50">
+              <h2 className="text-4xl font-bold text-red-500 mb-4">BUSTED!</h2>
+              <p className="text-2xl text-white mb-2">Score: {score}</p>
+              <p className="text-xl text-gray-400 mb-6">High Score: {highScore}</p>
+              <div className="flex gap-4">
+                <button
+                  onClick={startGame}
+                  className="bg-red-600 hover:bg-red-700 text-white py-2 px-6 rounded-lg font-bold"
+                >
+                  RETRY
+                </button>
+                <button
+                  onClick={returnToMenu}
+                  className="bg-gray-700 hover:bg-gray-600 text-white py-2 px-6 rounded-lg"
+                >
+                  MENU
+                </button>
+              </div>
             </div>
           )}
-        </>
-      )}
-      {gameState === "gameover" && (
-        <div className="text-center">
-          <h1 className="text-4xl font-bold text-red-500 mb-4">Game Over</h1>
-          <p className="mb-4">Your final score: {score}</p>
-          <button onClick={startGame} className="bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-8 rounded-full mb-4">
-            Restart Race
-          </button>
+
+          {/* HUD */}
+          {gameState === "playing" && (
+            <div className="absolute top-0 left-0 right-0 p-4 flex justify-between items-center bg-black bg-opacity-50 z-40">
+              <div className="text-white font-bold">SCORE: {score}</div>
+              <div className="text-white font-bold">SPEED: {Math.floor(player.speed * 20)} km/h</div>
+            </div>
+          )}
+
+          {/* Mobile controls */}
+          {gameState === "playing" && (
+            <div className="absolute bottom-0 left-0 right-0 p-4 flex justify-between z-40">
+              <button
+                className="bg-black bg-opacity-50 w-16 h-16 rounded-full flex items-center justify-center text-white text-2xl"
+                onTouchStart={() => setIsSteeringLeft(true)}
+                onTouchEnd={() => setIsSteeringLeft(false)}
+              >
+                ←
+              </button>
+              <button
+                className="bg-red-600 bg-opacity-70 w-16 h-16 rounded-full flex items-center justify-center text-white text-xl"
+                onTouchStart={() => setIsBoosting(true)}
+                onTouchEnd={() => setIsBoosting(false)}
+              >
+                BOOST
+              </button>
+              <button
+                className="bg-black bg-opacity-50 w-16 h-16 rounded-full flex items-center justify-center text-white text-2xl"
+                onTouchStart={() => setIsSteeringRight(true)}
+                onTouchEnd={() => setIsSteeringRight(false)}
+              >
+                →
+              </button>
+            </div>
+          )}
         </div>
-      )}
-      {gameState === "playing" && (
-        <div className="fixed bottom-0 left-0 right-0 h-32 md:hidden">
-          <div className="grid grid-cols-3 h-full">
-            <div className="bg-black/20 backdrop-blur-sm" />
-            <div className="bg-black/20 backdrop-blur-sm" />
-            <div className="bg-black/20 backdrop-blur-sm" />
+
+        {/* Game instructions */}
+        {gameState === "playing" && (
+          <div className="mt-4 text-gray-300 text-sm">
+            <p>Use ← → arrow keys to steer, ↑ to boost</p>
+            <p>Avoid oil slicks, collect boosters and shields!</p>
+            <p>Don't get caught by the police or drive off the road!</p>
           </div>
-          <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 text-white text-sm">
-            Touch left/right to steer
-          </div>
-        </div>
-      )}
+        )}
+      </motion.div>
     </div>
-  )
-}
+  );
+};
 
 export default CarRacingGame;
