@@ -17,6 +17,7 @@ import {
   faBars,
 } from "@fortawesome/free-solid-svg-icons"
 import { useNavigate } from "react-router-dom"
+import { faTrophy } from "@fortawesome/free-solid-svg-icons/faTrophy"
 
 const Navbar: React.FC<{ onDietSelect: (dietType: string) => void }> = ({ onDietSelect }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -130,6 +131,17 @@ const Navbar: React.FC<{ onDietSelect: (dietType: string) => void }> = ({ onDiet
             <FontAwesomeIcon icon={faGamepad} className="mr-2" />
             Play Game
           </motion.button>
+          {/* New Hall of Fame Button */}
+          <motion.button
+            onClick={() => navigate("/halloffame")}
+            className="text-white hover:text-red-500 font-semibold flex items-center font-bebas"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <FontAwesomeIcon icon={faTrophy} className="mr-2" />
+            Hall of Fame
+          </motion.button>
+          
           <motion.button
             onClick={handleContactClick}
             className="text-white hover:text-red-500 font-semibold flex items-center font-bebas"
@@ -208,17 +220,17 @@ const Navbar: React.FC<{ onDietSelect: (dietType: string) => void }> = ({ onDiet
                         className="ml-4 mt-2 space-y-2"
                       >
                         {type === "body"
-                          ? ["Chest", "Back", "Legs", "Core"].map((item) => (
-                              <motion.li
-                                key={item}
-                                onClick={() => navigate(`/${item.toLowerCase()}`)}
-                                className="text-white hover:text-red-500 cursor-pointer py-2 font-bebas font-bold"
-                                whileHover={{ scale: 1.05, x: 10 }}
-                              >
-                                <FontAwesomeIcon icon={faDumbbell} className="mr-2" />
-                                {item}
-                              </motion.li>
-                            ))
+                  ? ["Chest", "Back", "Legs", "Arms", "Shoulders", "Core"].map((item) => (
+                      <motion.li
+                        key={item}
+                        onClick={() => navigate(`/${item.toLowerCase()}`)}
+                        className="text-white hover:text-red-500 cursor-pointer py-2 font-bebas font-bold"
+                        whileHover={{ scale: 1.05, x: 10 }}
+                      >
+                        <FontAwesomeIcon icon={faDumbbell} className="mr-2" />
+                        {item}
+                      </motion.li>
+                    ))
                           : ["Muscle Gain", "Fat Loss", "Shredded"].map((item, index) => (
                               <motion.li
                                 key={item}
@@ -278,6 +290,21 @@ const Navbar: React.FC<{ onDietSelect: (dietType: string) => void }> = ({ onDiet
                 </button>
               </motion.li>
               <motion.li
+                  variants={{
+                    hidden: { opacity: 0, x: -20 },
+                    show: { opacity: 1, x: 0 },
+                  }}
+                >
+                  <button
+                    onClick={() => navigate("/halloffame")}
+                    className="w-full text-left py-2 text-white hover:text-red-500 transition-colors flex items-center font-bebas"
+                  >
+                    <FontAwesomeIcon icon={faTrophy} className="mr-2" />
+                    Hall of Fame
+                  </button>
+                </motion.li>
+
+              <motion.li
                 variants={{
                   hidden: { opacity: 0, x: -20 },
                   show: { opacity: 1, x: 0 },
@@ -331,7 +358,7 @@ const DropdownContent: React.FC<{
     >
       <motion.ul className="space-y-2 font-bebas font-bold">
         {type === "body"
-          ? ["Chest", "Back", "Legs", "Core"].map((item) => (
+          ? ["Chest", "Back", "Legs", "Arms", "Shoulders", "Core"].map((item) => (
               <motion.li
                 key={item}
                 onClick={() => navigate(`/${item.toLowerCase()}`)}

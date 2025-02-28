@@ -31,13 +31,4 @@ export default defineConfig({
       },
     },
   },
-  // Add asset handling configuration for 3D models
-  assetsInclude: [
-    "**/*.glb",
-    "**/*.gltf",
-    "**/*.bin",
-    "**/*.fbx",
-    "**/*.hdr",
-    "**/*.exr"
-  ],
 })

@@ -82,14 +82,14 @@ const WarmUp: React.FC = () => {
   return (
     <div className="min-h-screen bg-gray-900 text-white font-bebas pt-20 px-4">
       <motion.button
-        initial={{ opacity: 0, x: -20 }}
-        animate={{ opacity: 1, x: 0 }}
-        onClick={() => navigate("/cardio")}
-        className="mb-6 bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-full inline-flex items-center"
-      >
-        <FontAwesomeIcon icon={faArrowLeft} className="mr-2" />
-        Back to Cardio Workouts
-      </motion.button>
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              onClick={() => navigate("/main")}
+              className="mb-6 bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-full inline-flex items-center"
+            >
+              <FontAwesomeIcon icon={faArrowLeft} className="mr-2" />
+              Back to Main Content
+            </motion.button>
       <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-12">
         <h1 className="text-4xl font-bold text-red-500 mb-4">Warm-Up Exercises</h1>
         <p className="text-gray-400 max-w-2xl mx-auto">

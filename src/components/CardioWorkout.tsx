@@ -35,7 +35,7 @@ const CardioWorkout: React.FC = () => {
       <motion.button
         initial={{ opacity: 0, x: -20 }}
         animate={{ opacity: 1, x: 0 }}
-        onClick={() => navigate("/")}
+        onClick={() => navigate("/main")}
         className="mb-6 bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-full inline-flex items-center"
       >
         <FontAwesomeIcon icon={faArrowLeft} className="mr-2" />

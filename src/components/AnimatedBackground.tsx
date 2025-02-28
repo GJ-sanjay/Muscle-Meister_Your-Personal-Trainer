@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { motion } from 'framer-motion';
-import { useLocation } from 'react-router-dom';
+import React, { useState, useEffect, useRef, useCallback } from "react";
+import { motion } from "framer-motion";
+import { useLocation } from "react-router-dom";
 
 interface FloatingItem {
   id: number;
@@ -15,9 +15,9 @@ interface FloatingItem {
   hidden: boolean;
 }
 
-type Direction = 'up' | 'down' | 'left' | 'right' | 'up-left' | 'up-right' | 'down-left' | 'down-right';
+type Direction = "up" | "down" | "left" | "right" | "up-left" | "up-right" | "down-left" | "down-right";
 
-const motivationalItems = ['💪', '🔥', '🏋️‍♂️', '🏆', 'Stay Strong', 'Focus'];
+const motivationalItems = ["💪", "🔥", "🏋️‍♂️", "🏆", "Stay Strong", "Focus"];
 
 const AnimatedBackground: React.FC = () => {
   const location = useLocation();
@@ -25,73 +25,72 @@ const AnimatedBackground: React.FC = () => {
   const [windowSize, setWindowSize] = useState({ width: window.innerWidth, height: window.innerHeight });
   const floatingRefs = useRef<(HTMLDivElement | null)[]>([]);
 
-  if (location.pathname === '/') return null;
-
+  // ✅ Prevent React Hook Order Issues
   useEffect(() => {
-    const handleResize = () => setWindowSize({ width: window.innerWidth, height: window.innerHeight });
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    const handleResize = () => {
+      setWindowSize({ width: window.innerWidth, height: window.innerHeight });
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  // ✅ Move `createRandomItem` outside `useEffect` and use `useCallback` to prevent re-renders
+  const createRandomItem = useCallback(
+    (id: number): FloatingItem => {
+      const content = motivationalItems[Math.floor(Math.random() * motivationalItems.length)];
+      const directions: Direction[] = ["up", "down", "left", "right", "up-left", "up-right", "down-left", "down-right"];
+
+      return {
+        id,
+        content,
+        x: Math.random() * windowSize.width,
+        y: Math.random() * windowSize.height,
+        size: Math.random() * 16 + 14,
+        opacity: Math.random() * 0.15 + 0.05,
+        speed: Math.random() * 2 + 1,
+        direction: directions[Math.floor(Math.random() * directions.length)],
+        delay: Math.random() * 5,
+        hidden: false,
+      };
+    },
+    [windowSize] // ✅ Only re-create items when window size changes
+  );
+
+  // ✅ Ensure items generate properly when `windowSize` changes
   useEffect(() => {
-    const generateItems = () => {
-      const newItems: FloatingItem[] = [];
-      const numItems = Math.min(50, Math.floor(windowSize.width * windowSize.height / 20000));
-
-      for (let i = 0; i < numItems; i++) {
-        newItems.push(createRandomItem(i));
-      }
-
-      setItems(newItems);
-    };
-
-    generateItems();
+    const numItems = Math.min(50, Math.floor(windowSize.width * windowSize.height / 20000));
+    const newItems = Array.from({ length: numItems }, (_, i) => createRandomItem(i));
+    setItems(newItems);
 
     const interval = setInterval(() => {
-      setItems(prevItems => prevItems.map(item => createRandomItem(item.id)));
+      setItems((prevItems) => prevItems.map((item) => createRandomItem(item.id)));
     }, 5000);
 
     return () => clearInterval(interval);
-  }, [windowSize]);
+  }, [windowSize, createRandomItem]);
 
+  // ✅ Correctly handle floating elements visibility without affecting hooks order
   useEffect(() => {
     const observer = new IntersectionObserver(
-      entries => {
-        setItems(prevItems =>
+      (entries) => {
+        setItems((prevItems) =>
           prevItems.map((item, index) => ({
             ...item,
-            hidden: entries[index]?.isIntersecting || false
+            hidden: entries[index]?.isIntersecting || false,
           }))
         );
       },
       { root: null, threshold: 0.1 }
     );
 
-    floatingRefs.current.forEach(ref => {
+    floatingRefs.current.forEach((ref) => {
       if (ref) observer.observe(ref);
     });
 
     return () => observer.disconnect();
-  }, [items]);
+  }, [items.length]); // ✅ Ensures stability in `useEffect`
 
-  const createRandomItem = (id: number): FloatingItem => {
-    const content = motivationalItems[Math.floor(Math.random() * motivationalItems.length)];
-    const directions: Direction[] = ['up', 'down', 'left', 'right', 'up-left', 'up-right', 'down-left', 'down-right'];
-
-    return {
-      id,
-      content,
-      x: Math.random() * windowSize.width,
-      y: Math.random() * windowSize.height,
-      size: Math.random() * 16 + 14,
-      opacity: Math.random() * 0.15 + 0.05,
-      speed: Math.random() * 2 + 1,
-      direction: directions[Math.floor(Math.random() * directions.length)],
-      delay: Math.random() * 5,
-      hidden: false
-    };
-  };
-
+  // ✅ Ensure animation calculations remain consistent
   const getAnimationProps = (item: FloatingItem) => {
     const duration = 15 / item.speed;
     let x1 = item.x;
@@ -101,20 +100,40 @@ const AnimatedBackground: React.FC = () => {
     const distance = Math.min(windowSize.width, windowSize.height) * 0.7;
 
     switch (item.direction) {
-      case 'up': y2 -= distance; break;
-      case 'down': y2 += distance; break;
-      case 'left': x2 -= distance; break;
-      case 'right': x2 += distance; break;
-      case 'up-left': x2 -= distance * 0.7; y2 -= distance * 0.7; break;
-      case 'up-right': x2 += distance * 0.7; y2 -= distance * 0.7; break;
-      case 'down-left': x2 -= distance * 0.7; y2 += distance * 0.7; break;
-      case 'down-right': x2 += distance * 0.7; y2 += distance * 0.7; break;
+      case "up":
+        y2 -= distance;
+        break;
+      case "down":
+        y2 += distance;
+        break;
+      case "left":
+        x2 -= distance;
+        break;
+      case "right":
+        x2 += distance;
+        break;
+      case "up-left":
+        x2 -= distance * 0.7;
+        y2 -= distance * 0.7;
+        break;
+      case "up-right":
+        x2 += distance * 0.7;
+        y2 -= distance * 0.7;
+        break;
+      case "down-left":
+        x2 -= distance * 0.7;
+        y2 += distance * 0.7;
+        break;
+      case "down-right":
+        x2 += distance * 0.7;
+        y2 += distance * 0.7;
+        break;
     }
 
     return {
       initial: { x: x1, y: y1, opacity: 0 },
       animate: { x: x2, y: y2, opacity: item.hidden ? 0 : item.opacity },
-      transition: { duration, delay: item.delay, repeat: Infinity, repeatDelay: 2, ease: 'linear' }
+      transition: { duration, delay: item.delay, repeat: Infinity, repeatDelay: 2, ease: "linear" },
     };
   };
 
@@ -126,12 +145,12 @@ const AnimatedBackground: React.FC = () => {
         return (
           <motion.div
             key={item.id}
-            ref={el => (floatingRefs.current[index] = el)}
+            ref={(el) => (floatingRefs.current[index] = el)}
             className="absolute text-white select-none pointer-events-none font-bold whitespace-nowrap"
             style={{
               fontSize: `${item.size}px`,
-              textShadow: '0 0 5px rgba(255,0,0,0.3)',
-              opacity: item.hidden ? 0 : item.opacity
+              textShadow: "0 0 5px rgba(255,0,0,0.3)",
+              opacity: item.hidden ? 0 : item.opacity,
             }}
             initial={animationProps.initial}
             animate={animationProps.animate}

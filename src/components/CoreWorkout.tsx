@@ -221,28 +221,27 @@ const CoreWorkout: React.FC = () => {
     >
       <div className="max-w-7xl mx-auto">
         <motion.button
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          onClick={() => navigate("/")}
-          className="mb-8 bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-6 rounded-xl inline-flex items-center shadow-lg"
-        >
-          <FontAwesomeIcon icon={faArrowLeft} className="mr-3 text-xl" />
-          Back to Main
-        </motion.button>
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                onClick={() => navigate("/main")}
+                className="mb-6 bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-full inline-flex items-center"
+              >
+                <FontAwesomeIcon icon={faArrowLeft} className="mr-2" />
+                Back to Main Content
+              </motion.button>
 
-        <motion.header 
-          initial={{ y: -20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          className="text-center mb-14"
+        <motion.div 
+          initial={{ opacity: 0, y: -20 }} 
+          animate={{ opacity: 1, y: 0 }} 
+          className="text-center mb-8 md:mb-12"
         >
-          <h1 className="text-5xl md:text-6xl font-bold text-red-500 mb-4 drop-shadow-lg">
-            <FontAwesomeIcon icon={faDumbbell} className="mr-4" />
-            20 Elite Core Exercises
+          <h1 className="text-3xl md:text-4xl font-bold text-red-500 mb-3 md:mb-4">
+          ShowStopper Core Crunchers
           </h1>
-          <p className="text-gray-300 text-xl md:text-2xl max-w-3xl mx-auto">
-            Build complete core strength with this comprehensive workout collection
+          <p className="text-gray-400 text-sm md:text-base max-w-2xl mx-auto px-2">
+          Build complete core strength with this comprehensive workout collection
           </p>
-        </motion.header>
+        </motion.div>
 
         <motion.div 
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
