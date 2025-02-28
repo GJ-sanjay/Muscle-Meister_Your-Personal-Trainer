@@ -22,13 +22,11 @@ export default defineConfig({
     assetsInlineLimit: 0, // Disable asset inlining (critical for GLB/GLTF files)
     rollupOptions: {
       output: {
-        // Asset organization in build output
         assetFileNames: "assets/[name]-[hash][extname]",
         manualChunks: {
-          "react-vendor": ["react", "react-dom", "react-router-dom"],
-          "three-vendor": ["three", "@react-three/fiber", "@react-three/drei"],
+          "react-vendor": ["react", "react-dom", "react-router-dom"], // ✅ KEEP THIS
         },
       },
-    },
+    },    
   },
 })
