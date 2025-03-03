@@ -36,7 +36,7 @@ const CoreWorkout: React.FC = () => {
       description: "Full core engagement in static hold position",
       duration: "30-60 seconds",
       sets: 3,
-      image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b",
+      image: "https://thumbs.dreamstime.com/b/fitness-training-athletic-sporty-man-doing-plank-exercise-gym-yoga-class-exercising-workout-70718580.jpg",
       tips: ["Form straight line from head to heels", "Engage glutes and core", "Breathe deeply"],
       icon: faFire
     },
@@ -45,7 +45,7 @@ const CoreWorkout: React.FC = () => {
       description: "Rotational exercise targeting obliques",
       reps: "20 each side",
       sets: 3,
-      image: "https://images.unsplash.com/photo-1596357395217-80de13130e92",
+      image: "https://media.istockphoto.com/id/2166986800/photo/a-happy-sportswoman-is-doing-russian-twist-with-kettle-bell-in-a-gym-and-her-trainer-is.jpg?s=612x612&w=0&k=20&c=xnicshyi7GC1Ed-LCkdJIZdqk4TGZ9i1hgLojERsWVA=",
       tips: ["Keep feet elevated", "Maintain controlled motion", "Use weight for intensity"],
       icon: faBalanceScale
     },
@@ -54,7 +54,7 @@ const CoreWorkout: React.FC = () => {
       description: "Supine core stabilization exercise",
       reps: "15 each side",
       sets: 3,
-      image: "https://images.unsplash.com/photo-1579750962763-6e5f37a5b65a",
+      image: "https://hips.hearstapps.com/hmg-prod/images/muscular-hispanic-man-doing-plank-on-the-beach-at-royalty-free-image-1680697280.jpg",
       tips: ["Press lower back into floor", "Move slowly with control", "Exhale during exertion"],
       icon: faLeaf
     },
@@ -63,7 +63,7 @@ const CoreWorkout: React.FC = () => {
       description: "Dynamic core and cardio movement",
       duration: "45 seconds",
       sets: 4,
-      image: "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e",
+      image: "https://static.vecteezy.com/system/resources/previews/053/050/821/non_2x/caucasian-sportsman-sport-trainer-doing-mountain-climber-exercise-running-plank-on-fitness-mat-male-athlete-runner-bending-knees-strong-man-training-endurance-healthy-lifestyle-cardio-workout-in-gym-photo.jpg",
       tips: ["Maintain plank position", "Drive knees to chest", "Increase speed gradually"],
       icon: faMountain
     },
@@ -72,7 +72,7 @@ const CoreWorkout: React.FC = () => {
       description: "Gymnastics-inspired core strengthener",
       duration: "20-30 seconds",
       sets: 4,
-      image: "https://images.unsplash.com/photo-1576673258481-27ef08d1622e",
+      image: "https://www.shutterstock.com/image-photo/shirtless-man-demonstrates-hollow-body-260nw-2464812857.jpg",
       tips: ["Press lower back to floor", "Extend arms overhead", "Engage deep core muscles"],
       icon: faCube
     },
@@ -81,7 +81,7 @@ const CoreWorkout: React.FC = () => {
       description: "Anti-rotation core stability exercise",
       reps: "12 each side",
       sets: 3,
-      image: "https://images.unsplash.com/photo-1576675422768-0d4f1cac675c",
+      image: "https://media.istockphoto.com/id/1439775517/photo/man-doing-bird-dog-exercise-with-other-people-in-gym.jpg?s=612x612&w=0&k=20&c=ApZOwvCWJmqe2CdZ7NVbjjkhkf1EqJYwav89Q4ww_Xo=",
       tips: ["Maintain neutral spine", "Move slowly with control", "Focus on balance"],
       icon: faBullseye
     },
@@ -90,7 +90,7 @@ const CoreWorkout: React.FC = () => {
       description: "Lower abdominal targeting movement",
       duration: "30 seconds",
       sets: 4,
-      image: "https://images.unsplash.com/photo-1579750962429-b6d1b7d42b2d",
+      image: "https://c8.alamy.com/comp/PKEYGE/flutter-kicks-are-a-type-of-abdominal-workout-that-focuses-on-the-lower-part-of-the-core-and-hip-flexors-this-workout-can-also-burn-belly-fat-on-the-lower-portion-of-the-stomach-hover-your-legs-above-the-ground-and-kick-into-the-air-one-leg-at-a-time-without-touching-the-floor-PKEYGE.jpg",
       tips: ["Keep legs straight", "Maintain lower back contact", "Use controlled motion"],
       icon: faWaveSquare
     },
@@ -117,7 +117,7 @@ const CoreWorkout: React.FC = () => {
       description: "Lower abdominal focused movement",
       reps: 15,
       sets: 3,
-      image: "https://images.unsplash.com/photo-1571019614243-c4cb2e843b74",
+      image: "https://www.shape.com/thmb/FwTfJjTS9ZGGf_MehZJkn3Wi0_c=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/reverse-crunch-fb-2000-8021f50a2c9045e682505cb2e380c002.jpg",
       tips: ["Lift hips off floor", "Exhale during contraction", "Avoid momentum"],
       icon: faFeather
     },
@@ -126,7 +126,7 @@ const CoreWorkout: React.FC = () => {
       description: "Advanced full core activation",
       reps: 12,
       sets: 3,
-      image: "https://images.unsplash.com/photo-1576673258481-27ef08d1622e",
+      image: "https://www.shutterstock.com/image-photo/sporty-young-woman-making-vup-260nw-2264990117.jpg",
       tips: ["Keep legs straight", "Reach fingertips to toes", "Control descent"],
       icon: faStar
     },
@@ -144,7 +144,7 @@ const CoreWorkout: React.FC = () => {
       description: "Advanced core strength builder",
       reps: 8,
       sets: 3,
-      image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b",
+      image: "https://calisteniapp.com/_next/image?url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2Faa8d3hr0%2Fproduction%2F4b5b79e3fc0babd23201f64e36adf3a42438c394-1920x1080.jpg%3Fw%3D900&w=3840&q=75",
       tips: ["Start with bent knees", "Engage entire core", "Use padding for support"],
       icon: faDragon
     },
@@ -171,7 +171,7 @@ const CoreWorkout: React.FC = () => {
       description: "Static core and hip flexor challenge",
       duration: "15-30 seconds",
       sets: 4,
-      image: "https://images.unsplash.com/photo-1576673258481-27ef08d1622e",
+      image: "https://www.shutterstock.com/image-photo/muscular-shirtless-man-workout-kettlebells-260nw-1066284383.jpg",
       tips: ["Elevate on parallettes", "Press through palms", "Engage quads"],
       icon: faHandPaper
     },
@@ -189,7 +189,7 @@ const CoreWorkout: React.FC = () => {
       description: "Oblique and rotational challenge",
       reps: "10 each side",
       sets: 3,
-      image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b",
+      image: "https://s3.amazonaws.com/prod.skimble/assets/1280463/image_iphone.jpg",
       tips: ["Control rotation", "Keep shoulders down", "Modify range as needed"],
       icon: faShieldAlt
     },
@@ -198,7 +198,7 @@ const CoreWorkout: React.FC = () => {
       description: "Dynamic core and oblique workout",
       reps: "15 each side",
       sets: 3,
-      image: "https://images.unsplash.com/photo-1596357395217-80de13130e92",
+      image: "https://media.istockphoto.com/id/1224033680/photo/fitness-woman-doing-twists-exercise-morning-workout-at-home.jpg?s=612x612&w=0&k=20&c=3mKU0lWZXCnleOzpnpdj8jh1N6nLhyr7h7YfiNhWPIw=",
       tips: ["Add medicine ball", "Focus on rotation", "Control descent"],
       icon: faRocket
     },
