@@ -284,7 +284,7 @@ export const dietPlans: DietPlan[] = [
             name: "Chicken Biryani with Curd",
             description: "Aromatic brown rice biryani with spiced chicken and a side of curd.",
             calories: 600,
-            image: "https://media.istockphoto.com/id/1345624336/photo/chicken-biriyani.jpg?s=612x612&w=0&k=20&c=adU_N0P-1SKMQLZu5yu7aPknfLLgbViI8XILqLP92A4=g",
+            image: "https://t4.ftcdn.net/jpg/05/17/96/89/360_F_517968988_hFHjQT6Flfksjx8n0KxfvMtP2tqlmGKk.jpg",
           },
           {
             type: "Snacks",
@@ -447,28 +447,28 @@ export const dietPlans: DietPlan[] = [
             "name": "Idli with Sambar",
             "description": "Steamed soft idlis served with a flavorful sambar packed with vegetables and spices.",
             "calories": 300,
-            "image": "https://images.unsplash.com/photo-1605345503941-d2b4173c0a1e?w=800&auto=format&fit=crop"
+            "image": "https://t3.ftcdn.net/jpg/01/61/13/66/360_F_161136674_NgVFcPtWfwLPY03NpJUrSiH9oDvma9Rn.jpg"
           },
           {
             "type": "Lunch",
             "name": "Grilled Chicken with Vegetable Rasam",
             "description": "Lean grilled chicken paired with a tangy rasam made with tamarind, tomatoes, and spices.",
             "calories": 400,
-            "image": "https://images.unsplash.com/photo-1584964350194-3f572d9cdb55?w=800&auto=format&fit=crop"
+            "image": "https://t3.ftcdn.net/jpg/12/01/10/22/240_F_1201102293_VAMbz1vk7PROMYO4sdNhziNeBEZg2hky.jpg"
           },
           {
             "type": "Snacks",
             "name": "Sundal",
             "description": "A healthy snack of boiled chickpeas tossed with grated coconut and tempered with mustard seeds.",
             "calories": 150,
-            "image": "https://images.unsplash.com/photo-1560478487-2ccbe7f1c8ad?w=800&auto=format&fit=crop"
+            "image": "https://c8.alamy.com/comp/2HJGWRP/southindian-chickpeas-salad-garnished-with-coconut-curry-leaves-and-dried-red-chilli-2HJGWRP.jpg"
           },
           {
             "type": "Dinner",
             "name": "Vegetable Kurma with Chapati",
             "description": "A mixed vegetable kurma cooked with aromatic spices and served with whole wheat chapati.",
             "calories": 450,
-            "image": "https://images.unsplash.com/photo-1635935862699-d11adab2bb7f?w=800&auto=format&fit=crop"
+            "image": "https://i.ytimg.com/vi/udm4mNgAP3I/maxresdefault.jpg"
           }
         ]
       },
@@ -480,28 +480,28 @@ export const dietPlans: DietPlan[] = [
             "name": "Ven Pongal",
             "description": "A traditional Tamil breakfast made of rice and yellow moong dal, tempered with ghee, pepper, and ginger.",
             "calories": 350,
-            "image": "https://images.unsplash.com/photo-1581606850171-b69792a2ba88?w=800&auto=format&fit=crop"
+            "image": "https://thumbs.dreamstime.com/b/ven-pongal-famous-south-indian-breakfast-served-banana-leaf-270630914.jpg"
           },
           {
             "type": "Lunch",
             "name": "Fish Curry with Brown Rice",
             "description": "A delicious and spicy fish curry served with nutritious brown rice.",
             "calories": 450,
-            "image": "https://images.unsplash.com/photo-1606439986071-dff3c6bb9d74?w=800&auto=format&fit=crop"
+            "image": "https://media.istockphoto.com/id/482121467/photo/indian-thali-with-fish.jpg?s=612x612&w=0&k=20&c=VN1wILU7RRC-ey9llvVpB7-YGemIz4LZfv3pO5g8qd4="
           },
           {
             "type": "Snacks",
             "name": "Cucumber Raita",
             "description": "Cooling cucumber mixed with yogurt and a sprinkle of cumin powder.",
             "calories": 100,
-            "image": "https://images.unsplash.com/photo-1603054040394-e9c3bfe7b0f0?w=800&auto=format&fit=crop"
+            "image": "https://media.istockphoto.com/id/1403987193/photo/tzatziki-dip.jpg?s=612x612&w=0&k=20&c=sF4_5TeDpDNUIXCOJ16hhHAQTwmQ2pupkDyURsUqSA4=p"
           },
           {
             "type": "Dinner",
             "name": "Grilled Paneer Tikka with Salad",
             "description": "Grilled cubes of paneer marinated in a spicy yogurt mix, served with a side of fresh salad.",
             "calories": 400,
-            "image": "https://images.unsplash.com/photo-1604674743973-d6e508c303b0?w=800&auto=format&fit=crop"
+            "image": "https://thumbs.dreamstime.com/b/delicious-tandoori-malai-paneer-tikka-served-fresh-vegetables-chutney-wooden-table-vibrant-platter-displays-skewers-336266675.jpg"
           }
         ]
       },
@@ -513,28 +513,28 @@ export const dietPlans: DietPlan[] = [
             "name": "Dosa with Coconut Chutney",
             "description": "Crispy dosa served with a refreshing coconut chutney and a side of sambar.",
             "calories": 350,
-            "image": "https://images.unsplash.com/photo-1600167622493-6db61f13b4b1?w=800&auto=format&fit=crop"
+            "image": "https://www.shutterstock.com/image-photo/homemade-dosa-dhosa-masala-plain-600nw-1597787986.jpg"
           },
           {
             "type": "Lunch",
             "name": "Chicken Chettinad with Steamed Rice",
             "description": "A spicy, aromatic chicken Chettinad curry paired with steamed rice.",
             "calories": 500,
-            "image": "https://images.unsplash.com/photo-1602296880628-0d43a9bbd52f?w=800&auto=format&fit=crop"
+            "image": "https://media.istockphoto.com/id/469791083/photo/chettinad-chicken.jpg?s=612x612&w=0&k=20&c=YOqU4TMvZCOrG5HkFwo6S3VeVcHDUL_BoQXLrvjfTL0="
           },
           {
             "type": "Snacks",
             "name": "Bhel Puri",
             "description": "A low-calorie snack made of puffed rice, tomatoes, onions, and a tangy tamarind chutney.",
             "calories": 150,
-            "image": "https://images.unsplash.com/photo-1602569941687-2d61849cb28b?w=800&auto=format&fit=crop"
+            "image": "https://media.istockphoto.com/id/1173495885/photo/bhelpuri-an-indian-delicious-food-chaat-or-snack.jpg?s=612x612&w=0&k=20&c=Bvoic28QePizgvmF0qNviexg3pJxuiyySSFZYAj2qkE="
           },
           {
             "type": "Dinner",
             "name": "Tofu Stir Fry with Vegetables",
             "description": "Stir-fried tofu with bell peppers, onions, and other fresh vegetables.",
             "calories": 400,
-            "image": "https://images.unsplash.com/photo-1602569941687-2d61849cb28b?w=800&auto=format&fit=crop"
+            "image": "https://media.istockphoto.com/id/523445425/photo/homemade-tofu-stir-fry.jpg?s=612x612&w=0&k=20&c=wt9ie_VlwAIHl5Cp7oeggDcBI4HOn7yfqGSWVFTDNss="
           }
         ]
       },
@@ -546,28 +546,28 @@ export const dietPlans: DietPlan[] = [
             "name": "Rava Upma",
             "description": "A savory dish made with rava (semolina), mixed vegetables, and mild spices.",
             "calories": 300,
-            "image": "https://images.unsplash.com/photo-1565299681-f70879b7d314?w=800&auto=format&fit=crop"
+            "image": "https://media.istockphoto.com/id/1488737992/photo/upma-recipe-suji-ka-upma-rava-upma-with-red-and-coconut-chutney.jpg?s=612x612&w=0&k=20&c=dGTIRLT4c7XdC8xAqkumyuURqMAy3HNQccNjEQT3wmU="
           },
           {
             "type": "Lunch",
             "name": "Mutton Kuzhambu with Brown Rice",
             "description": "Slow-cooked mutton in a spicy kuzhambu curry served with nutritious brown rice.",
             "calories": 500,
-            "image": "https://images.unsplash.com/photo-1592870456678-e9ed9b496213?w=800&auto=format&fit=crop"
+            "image": "https://media.gettyimages.com/id/1496585039/photo/mutton-curry.jpg?s=612x612&w=0&k=20&c=SjRkfijRJtWE9U8rTTGdS4KvbeGLe4iVZYMDB3I4_Rk="
           },
           {
             "type": "Snacks",
             "name": "Pesarattu with Ginger Chutney",
             "description": "Green moong dal pancakes served with a tangy ginger chutney.",
             "calories": 150,
-            "image": "https://images.unsplash.com/photo-1592341603764-bbfe92a63235?w=800&auto=format&fit=crop"
+            "image": "https://www.shutterstock.com/image-photo/pesarattu-dosa-moong-dosai-indian-260nw-2246279143.jpg"
           },
           {
             "type": "Dinner",
             "name": "Mixed Vegetable Sambar with Quinoa",
             "description": "A hearty sambar made with mixed vegetables served with quinoa instead of rice.",
             "calories": 400,
-            "image": "https://images.unsplash.com/photo-1589209703084-f2de68b6d2e0?w=800&auto=format&fit=crop"
+            "image": "https://media.gettyimages.com/id/506583996/photo/grilled-chicken-with-quinoa-and-brown-rice-salad.jpg?s=612x612&w=0&k=20&c=mgAqaQ28v4V8r4E5jVVI7DXYmAEAjkI3d7rVXsTSb4U="
           }
         ]
       },
@@ -579,28 +579,28 @@ export const dietPlans: DietPlan[] = [
             "name": "Appam with Stew",
             "description": "Soft appams served with a light vegetable stew made with coconut milk.",
             "calories": 350,
-            "image": "https://images.unsplash.com/photo-1590966198055-dc7244fa6607?w=800&auto=format&fit=crop"
+            "image": "https://thumbs.dreamstime.com/b/kerala-breakfast-food-appam-mutton-stew-curry-christmas-celebration-india-appam-mutton-stew-curry-kerala-breakfast-190407963.jpg"
           },
           {
             "type": "Lunch",
             "name": "Kozhi Varuthathu (Spicy Fried Chicken) with Salad",
             "description": "Crispy fried chicken coated with a spicy masala served with a side of fresh salad.",
             "calories": 450,
-            "image": "https://images.unsplash.com/photo-1605052467093-64c7305b764f?w=800&auto=format&fit=crop"
+            "image": "https://c8.alamy.com/comp/2GG6EJW/kerala-style-spicy-chiken-roast-garnised-with-caramalised-onions-popular-name-is-kozhi-varuthathu-shot-on-white-background-2GG6EJW.jpg"
           },
           {
             "type": "Snacks",
             "name": "Buttermilk with Salt and Cumin",
             "description": "A refreshing glass of buttermilk with a pinch of salt and cumin powder.",
             "calories": 100,
-            "image": "https://images.unsplash.com/photo-1605897742677-f2c8bc5b61c1?w=800&auto=format&fit=crop"
+            "image": "https://c8.alamy.com/comp/T248WN/curd-with-saltblack-pepper-and-cumin-powder-with-raw-cumin-on-wooden-surface-with-a-glass-full-of-wateringredients-of-buttermilk-or-chass-or-chhaach-T248WN.jpg"
           },
           {
             "type": "Dinner",
             "name": "Sambar with Idiyappam",
             "description": "Steamed idiyappam (string hoppers) served with a rich and flavorful sambar.",
             "calories": 400,
-            "image": "https://images.unsplash.com/photo-1616231742428-69ab5566e469?w=800&auto=format&fit=crop"
+            "image": "https://c8.alamy.com/comp/GNJ894/idiyappam-string-hoppers-with-egg-curry-south-indian-and-sri-lankan-GNJ894.jpg"
           }
         ]
       }
