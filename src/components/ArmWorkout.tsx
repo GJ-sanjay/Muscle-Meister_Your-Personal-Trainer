@@ -35,7 +35,7 @@ const ArmWorkout: React.FC = () => {
       description: "Isolated bicep peak builder using incline bench",
       reps: "12-15",
       sets: 4,
-      image: "https://images.unsplash.com/photo-1581009137162-1c376a901979",
+      image: "https://www.shutterstock.com/image-photo/asian-man-shirtless-workout-weight-600nw-2280545545.jpg",
       tips: ["Keep elbows fixed", "Full stretch at bottom", "Squeeze at top"],
       icon: faSpider
     },
@@ -44,7 +44,7 @@ const ArmWorkout: React.FC = () => {
       description: "Advanced compound back/bicep movement",
       reps: "6-8",
       sets: 4,
-      image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b",
+      image: "https://media.gettyimages.com/id/946365984/photo/strong-caucasian-woman-doing-pull-ups-in-a-fitness-gym.jpg?s=612x612&w=gi&k=20&c=ODUVHzaUD2TJzRhRmXO_VWkNAA-bZev9ejn16B9v1wg=",
       tips: ["Add weight belt", "Full range of motion", "Lean back slightly"],
       icon: faAnchor
     },
@@ -53,7 +53,7 @@ const ArmWorkout: React.FC = () => {
       description: "Forearm-focused rotational curls",
       reps: "10-12",
       sets: 3,
-      image: "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e",
+      image: "https://i.pinimg.com/736x/b1/90/51/b19051bd8618337f70cac42faf993b16.jpg",
       tips: ["Pronate on descent", "Supinate on ascent", "Control rotation"],
       icon: faGripVertical
     },
@@ -62,7 +62,7 @@ const ArmWorkout: React.FC = () => {
       description: "Tricep-dominant pressing movement",
       reps: "8-10",
       sets: 4,
-      image: "https://images.unsplash.com/photo-1576673258481-27ef08d1622e",
+      image: "https://www.shutterstock.com/image-illustration/closegrip-barbell-bench-press-3d-600nw-430936051.jpg",
       tips: ["Elbows tucked", "Bar to lower chest", "Full lockout"],
       icon: faFistRaised
     },
@@ -71,7 +71,7 @@ const ArmWorkout: React.FC = () => {
       description: "Brachiialis and forearm development",
       reps: "12 each arm",
       sets: 3,
-      image: "https://images.unsplash.com/photo-1571019614243-c4cb2e843b74",
+      image: "https://www.shutterstock.com/image-illustration/cross-body-hammer-curls-3d-260nw-419477203.jpg",
       tips: ["Across body path", "Control negative", "Squeeze at peak"],
       icon: faArrowsAltV
     },
@@ -80,7 +80,7 @@ const ArmWorkout: React.FC = () => {
       description: "Long head tricep isolation",
       reps: "10-12",
       sets: 4,
-      image: "https://images.unsplash.com/photo-1579750962429-b6d1b7d42b2d",
+      image: "https://media.istockphoto.com/id/518525640/photo/triceps-overhead-extension-rope.jpg?s=612x612&w=0&k=20&c=gGsDgAVKeiRvvPAiGo6gKgW9uj5RqkL70dH9HxZmRsg=",
       tips: ["Keep elbows in", "Full stretch overhead", "No shoulder involvement"],
       icon: faCube
     },
@@ -89,7 +89,7 @@ const ArmWorkout: React.FC = () => {
       description: "Strict bicep isolation",
       reps: "10-15",
       sets: 4,
-      image: "https://images.unsplash.com/photo-1581009137162-1c376a901979",
+      image: "https://media.istockphoto.com/id/513435206/photo/handsome-man-lifting-weights-at-the-gym.jpg?s=612x612&w=0&k=20&c=7BH3FZOfWC11C7HL66uYbH4Py2sy6vicAoapEf9dzTY=",
       tips: ["Adjust pad height", "Control eccentric", "No momentum"],
       icon: faBalanceScale
     },
@@ -98,7 +98,7 @@ const ArmWorkout: React.FC = () => {
       description: "Bodyweight tricep blaster",
       reps: "15-20",
       sets: 3,
-      image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b",
+      image: "https://www.shutterstock.com/image-illustration/diamond-pushup-3d-illustration-260nw-622379597.jpg",
       tips: ["Hands form diamond", "Elbows tucked", "Full range"],
       icon: faRing
     },
@@ -107,7 +107,7 @@ const ArmWorkout: React.FC = () => {
       description: "Peak contraction focus",
       reps: "12 each arm",
       sets: 3,
-      image: "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e",
+      image: "https://media.istockphoto.com/id/1049036796/photo/working-hard-for-healthy-body.jpg?s=612x612&w=0&k=20&c=x4uelM_u8OmoZPZeuPyQsoRrQ-5mKQ3YcuBqLOoAoDc=",
       tips: ["Elbow inside thigh", "Hold peak contraction", "Strict form"],
       icon: faHand
     },
@@ -116,7 +116,7 @@ const ArmWorkout: React.FC = () => {
       description: "Hybrid press/extension for triceps",
       reps: "8-10",
       sets: 4,
-      image: "https://images.unsplash.com/photo-1576673258481-27ef08d1622e",
+      image: "https://weighttraining.guide/wp-content/uploads/2018/11/Barbell-JM-press-resized.png",
       tips: ["Elbows forward", "Bar to forehead", "Drive through elbows"],
       icon: faBolt
     },
@@ -125,7 +125,7 @@ const ArmWorkout: React.FC = () => {
       description: "Forearm and brachialis focus",
       reps: "12-15",
       sets: 3,
-      image: "https://images.unsplash.com/photo-1579750962429-b6d1b7d42b2d",
+      image: "https://www.shutterstock.com/shutterstock/photos/1986762914/display_1500/stock-vector-man-doing-dumbbell-bicep-reverse-curls-exercise-flat-vector-illustration-isolated-on-white-1986762914.jpg",
       tips: ["Supinated grip", "Full wrist extension", "Slow tempo"],
       icon: faShieldAlt
     },
@@ -134,7 +134,7 @@ const ArmWorkout: React.FC = () => {
       description: "Tricep isolation with dumbbells",
       reps: "12-15",
       sets: 4,
-      image: "https://images.unsplash.com/photo-1581009137162-1c376a901979",
+      image: "https://cdn-0.weighttraining.guide/wp-content/uploads/2016/12/Dumbbell-Tate-Press-resized.png?ezimgfmt=ng%3Awebp%2Fngcb4",
       tips: ["Elbows flared", "Press in arc motion", "Squeeze at top"],
       icon: faWaveSquare
     },
@@ -143,7 +143,7 @@ const ArmWorkout: React.FC = () => {
       description: "Time-under-tension bicep builder",
       reps: "21",
       sets: 3,
-      image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b",
+      image: "https://www.setforset.com/cdn/shop/articles/bicep_21s_2000x.jpg?v=1637131104",
       tips: ["7 partial bottom", "7 partial top", "7 full range"],
       icon: faTachometerAlt
     },
@@ -152,7 +152,7 @@ const ArmWorkout: React.FC = () => {
       description: "Tricep isolation with constant tension",
       reps: "15-20",
       sets: 4,
-      image: "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e",
+      image: "https://t4.ftcdn.net/jpg/02/80/96/09/360_F_280960931_nObdxEXR5av6J33ZliqDArVOcRq2mnrP.jpg",
       tips: ["Lean forward slightly", "Elbows glued to sides", "Full extension"],
       icon: faMagnet
     },
@@ -161,7 +161,7 @@ const ArmWorkout: React.FC = () => {
       description: "Long bicep head emphasis",
       reps: "10-12",
       sets: 4,
-      image: "https://images.unsplash.com/photo-1576673258481-27ef08d1622e",
+      image: "https://www.shutterstock.com/image-illustration/start-end-position-digital-athletic-260nw-372766684.jpg",
       tips: ["45° bench angle", "Full stretch at bottom", "Rotate palms up"],
       icon: faWeightHanging
     },
@@ -170,7 +170,7 @@ const ArmWorkout: React.FC = () => {
       description: "Tricep builder with safety focus",
       reps: "10-12",
       sets: 4,
-      image: "https://images.unsplash.com/photo-1579750962429-b6d1b7d42b2d",
+      image: "https://hips.hearstapps.com/hmg-prod/images/701/thumb-floorskullcrushertriset-1510090317.png",
       tips: ["Elbows at 45°", "Stop at forehead", "No shoulder drift"],
       icon: faFire
     },
@@ -179,7 +179,7 @@ const ArmWorkout: React.FC = () => {
       description: "Grip strength and forearm development",
       reps: "10-12",
       sets: 3,
-      image: "https://images.unsplash.com/photo-1581009137162-1c376a901979",
+      image: "https://liftmanual.com/wp-content/uploads/2023/04/plate-pinch.jpg",
       tips: ["Pinch weight plates", "Full supination", "Slow negatives"],
       icon: faGripVertical
     },
@@ -188,7 +188,7 @@ const ArmWorkout: React.FC = () => {
       description: "Full tricep stretch and contraction",
       reps: "10-12",
       sets: 4,
-      image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b",
+      image: "https://media.istockphoto.com/id/1338892778/photo/an-athletic-asian-male-does-a-set-of-lying-tricep-extensions-also-known-as-skull-crushers.jpg?s=1024x1024&w=is&k=20&c=53y7V1pBbwnuka_l0_f0HtnUh-CrqTpFBByyY-Ao0sQ=",
       tips: ["Behind head stretch", "Elbows fixed", "Squeeze at top"],
       icon: faCube
     },
@@ -197,7 +197,7 @@ const ArmWorkout: React.FC = () => {
       description: "Target tricep medial head",
       reps: "15-20",
       sets: 3,
-      image: "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e",
+      image: "https://anabolicaliens.com/cdn/shop/articles/5fb55f667f160c562e9e4172_reverse-grip-tricep-pushdown.png?v=1641751032",
       tips: ["Underhand grip", "Full extension", "Constant tension"],
       icon: faArrowsAltV
     },
@@ -206,7 +206,7 @@ const ArmWorkout: React.FC = () => {
       description: "Bicep-focused minimal shoulder involvement",
       reps: "10-12",
       sets: 4,
-      image: "https://images.unsplash.com/photo-1576673258481-27ef08d1622e",
+      image: "https://fitliferegime.com/wp-content/uploads/2023/02/Dumbbell-Drag-Curl.jpg",
       tips: ["Keep bar close to body", "Elbows back", "Squeeze at top"],
       icon: faHandFist
     }
