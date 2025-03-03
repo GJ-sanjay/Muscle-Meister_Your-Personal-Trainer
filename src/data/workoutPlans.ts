@@ -376,7 +376,7 @@ export const dietPlans: DietPlan[] = [
             name: "Upma with Boiled Egg",
             description: "Semolina upma enriched with vegetables and served with a boiled egg.",
             calories: 400,
-            image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTlzj6ElEZ-TJiU5rVlPVuFm3_FYbtlt8e2gQ&s",
+            image: "https://media.istockphoto.com/id/1194610986/photo/breakfast-boiled-egg-and-vegetables.jpg?s=612x612&w=0&k=20&c=einlXn_jecDxr8vLHmWlWYdpt8R1djSoFRW1zRM_lnk=",
           },
           {
             type: "Lunch",
@@ -494,7 +494,7 @@ export const dietPlans: DietPlan[] = [
             "name": "Cucumber Raita",
             "description": "Cooling cucumber mixed with yogurt and a sprinkle of cumin powder.",
             "calories": 100,
-            "image": "https://media.istockphoto.com/id/1403987193/photo/tzatziki-dip.jpg?s=612x612&w=0&k=20&c=sF4_5TeDpDNUIXCOJ16hhHAQTwmQ2pupkDyURsUqSA4=p"
+            "image": "https://img.freepik.com/free-photo/front-view-sliced-cucumbers-stand-yogurt-with-greens-okroshka-glass-gray-surface_141793-17803.jpg?t=st=1741002955~exp=1741006555~hmac=e86b84c44d37837722781373afacb9181b71c0c4500cf0c07d39ef0e0880d066&w=1800"
           },
           {
             "type": "Dinner",
@@ -617,28 +617,28 @@ export const dietPlans: DietPlan[] = [
             "name": "Oats Idli with Coconut Chutney",
             "description": "Oats-based idlis served with a side of fresh coconut chutney for added fiber and healthy fats.",
             "calories": 300,
-            "image": "https://images.unsplash.com/photo-1571601387454-07f6479cc8ab?w=800&auto=format&fit=crop"
+            "image": "https://i.ytimg.com/vi/5UrJHPvJ6T8/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLDG49C0U1ZeX1qCGBaS1Ck2PiCbxg"
           },
           {
             "type": "Lunch",
             "name": "Grilled Chicken Salad with Lemon Dressing",
             "description": "Lean grilled chicken on a bed of mixed greens with a tangy lemon dressing.",
             "calories": 350,
-            "image": "https://images.unsplash.com/photo-1604506810445-8c3f5bc1b1ae?w=800&auto=format&fit=crop"
+            "image": "https://media.gettyimages.com/id/155428449/photo/grilled-chicken-and-pasta.jpg?s=612x612&w=gi&k=20&c=LhqkAEhJNbpNFXzDvlSbQoJj_auTW1e-64CPcwqXfIo="
           },
           {
             "type": "Snacks",
             "name": "Spiced Buttermilk",
             "description": "A refreshing and low-calorie drink made with yogurt, cumin, and a pinch of black salt.",
             "calories": 100,
-            "image": "https://images.unsplash.com/photo-1591944315081-df1a62c2c8fa?w=800&auto=format&fit=crop"
+            "image": "https://media.istockphoto.com/id/1147733917/photo/spiced-buttermilk-indian-traditional-summer-drink.jpg?s=612x612&w=0&k=20&c=KkIOTp0lWkrp3xrM4MJRdAdizDTya7hxpHO2mB-PA2I="
           },
           {
             "type": "Dinner",
             "name": "Methi (Fenugreek) Paratha with Raita",
             "description": "A healthy methi paratha served with a cooling cucumber raita for a low-carb, high-fiber dinner.",
             "calories": 400,
-            "image": "https://images.unsplash.com/photo-1605802916495-3d52e24fbc7d?w=800&auto=format&fit=crop"
+            "image": "https://c8.alamy.com/comp/2GJ55MW/a-food-called-methi-paratha-or-methi-thepla-is-an-indian-breakfast-dish-served-with-curd-boondi-raita-and-capsicum-sabzi-masala-fenugreek-roti-2GJ55MW.jpg"
           }
         ]
       },
@@ -650,28 +650,28 @@ export const dietPlans: DietPlan[] = [
             "name": "Rava Upma with Vegetables",
             "description": "A light breakfast made with semolina and loaded with fiber-rich vegetables for a fulfilling start.",
             "calories": 300,
-            "image": "https://images.unsplash.com/photo-1565299681-f70879b7d314?w=800&auto=format&fit=crop"
+            "image": "https://t3.ftcdn.net/jpg/04/09/19/10/360_F_409191045_hKZVAPBdUXGuuKhbmi2DbbEktKIY33yb.jpg"
           },
           {
             "type": "Lunch",
             "name": "Fish Moilee with Brown Rice",
             "description": "A light and flavorful fish curry cooked in coconut milk, paired with fiber-rich brown rice.",
             "calories": 400,
-            "image": "https://images.unsplash.com/photo-1606439986071-dff3c6bb9d74?w=800&auto=format&fit=crop"
+            "image": "https://media.istockphoto.com/id/1480338622/photo/homemade-kerala-fish-curry.jpg?s=612x612&w=0&k=20&c=Ai8L2rqgsSiEfM55jr7VIBHCqlOpHiiKLwKHsL6BA2Q="
           },
           {
             "type": "Snacks",
             "name": "Cucumber Slices with Lemon and Salt",
             "description": "Fresh cucumber slices sprinkled with lemon juice and a pinch of salt for a refreshing, low-calorie snack.",
             "calories": 50,
-            "image": "https://images.unsplash.com/photo-1595217577000-057c1326b8a1?w=800&auto=format&fit=crop"
+            "image": "https://i.pinimg.com/474x/4b/e1/b5/4be1b57b2f578ff7cbbca0a0e083e61d.jpg"
           },
           {
             "type": "Dinner",
             "name": "Grilled Paneer with Steamed Vegetables",
             "description": "Lean grilled paneer served with a side of steamed vegetables for a protein-packed dinner.",
             "calories": 400,
-            "image": "https://images.unsplash.com/photo-1604674743973-d6e508c303b0?w=800&auto=format&fit=crop"
+            "image": "https://thumbs.dreamstime.com/z/close-up-grilled-paneer-cottage-cheese-boiled-vegetables-plate-use-selective-focus-212426520.jpg"
           }
         ]
       },
@@ -683,28 +683,28 @@ export const dietPlans: DietPlan[] = [
             "name": "Moong Dal Chilla",
             "description": "Protein-rich moong dal pancakes served with a side of tangy tomato chutney.",
             "calories": 300,
-            "image": "https://images.unsplash.com/photo-1597072651242-52a35ed10c11?w=800&auto=format&fit=crop"
+            "image": "https://media.istockphoto.com/id/625411394/photo/spinach-lentil-pancakes-palak-moong-dal-cheela.jpg?s=612x612&w=0&k=20&c=3BTcliIGFVlm6Yll_GHjV280nTPaxvaXDC1YOtarcaI="
           },
           {
             "type": "Lunch",
             "name": "Chickpea Sundal with Vegetables",
             "description": "Boiled chickpeas mixed with tempered spices and paired with a serving of sautéed vegetables.",
             "calories": 350,
-            "image": "https://images.unsplash.com/photo-1560478487-2ccbe7f1c8ad?w=800&auto=format&fit=crop"
+            "image": "https://i.pinimg.com/564x/ca/15/4e/ca154e9e9639f3c9a131a0f47251c773.jpg"
           },
           {
             "type": "Snacks",
             "name": "Boiled Egg with Black Pepper",
             "description": "A simple, high-protein snack with boiled eggs sprinkled with black pepper.",
             "calories": 100,
-            "image": "https://images.unsplash.com/photo-1582652940427-0ea59861d8ad?w=800&auto=format&fit=crop"
+            "image": "https://images.pexels.com/photos/4397269/pexels-photo-4397269.jpeg"
           },
           {
             "type": "Dinner",
             "name": "Tofu Stir Fry with Bell Peppers",
             "description": "Stir-fried tofu with colorful bell peppers and a dash of soy sauce for added flavor.",
             "calories": 400,
-            "image": "https://images.unsplash.com/photo-1602569941687-2d61849cb28b?w=800&auto=format&fit=crop"
+            "image": "https://www.saveur.com/uploads/2022/09/16/IGS_Features_UpdateBell-Peppers-With-Tofu.jpg?auto=webp&auto=webp&optimize=high&quality=70&width=1440"
           }
         ]
       },
@@ -716,28 +716,28 @@ export const dietPlans: DietPlan[] = [
             "name": "Idli with Tomato Chutney",
             "description": "Steamed idlis served with a fresh and tangy tomato chutney for a healthy, low-calorie breakfast.",
             "calories": 300,
-            "image": "https://images.unsplash.com/photo-1571601387454-07f6479cc8ab?w=800&auto=format&fit=crop"
+            "image": "https://media.istockphoto.com/id/153090509/photo/indian-food-idli-and-vada-with-sambar.jpg?s=612x612&w=0&k=20&c=4ep9Zc5K853PKAsrN1GzsjAA6rtGfg1DjvcFcqGElpc="
           },
           {
             "type": "Lunch",
             "name": "Chicken Tikka Salad",
             "description": "Grilled chicken tikka served on a bed of fresh vegetables with a light dressing.",
             "calories": 400,
-            "image": "https://images.unsplash.com/photo-1604506810445-8c3f5bc1b1ae?w=800&auto=format&fit=crop"
+            "image": "https://www.shutterstock.com/image-photo/hot-fresh-chicken-tikka-kebab-260nw-1825740644.jpg"
           },
           {
             "type": "Snacks",
             "name": "Coconut Water with Mint",
             "description": "A refreshing drink made with fresh coconut water and a hint of mint for added freshness.",
             "calories": 50,
-            "image": "https://images.unsplash.com/photo-1591944315081-df1a62c2c8fa?w=800&auto=format&fit=crop"
+            "image": "https://www.shutterstock.com/image-photo/glass-coconut-milk-mojito-cocktail-600nw-1011620947.jpg"
           },
           {
             "type": "Dinner",
             "name": "Mixed Vegetable Sambar with Quinoa",
             "description": "Sambar with mixed vegetables served with a side of quinoa for a protein-packed, high-fiber meal.",
             "calories": 400,
-            "image": "https://images.unsplash.com/photo-1589209703084-f2de68b6d2e0?w=800&auto=format&fit=crop"
+            "image": "https://thumbs.dreamstime.com/b/sambar-rice-south-indian-cuisine-21886463.jpg"
           }
         ]
       },
@@ -749,28 +749,28 @@ export const dietPlans: DietPlan[] = [
             "name": "Methi Paratha with Yogurt",
             "description": "A nutritious methi paratha served with a side of plain yogurt for added protein and probiotics.",
             "calories": 350,
-            "image": "https://images.unsplash.com/photo-1605802916495-3d52e24fbc7d?w=800&auto=format&fit=crop"
+            "image": "https://c8.alamy.com/comp/2HCTK4X/a-food-called-methi-paratha-or-methi-thepla-is-an-indian-breakfast-dish-served-with-curd-and-a-spoon-full-of-desi-ghee-with-copy-space-2HCTK4X.jpg"
           },
           {
             "type": "Lunch",
             "name": "Grilled Fish with Sauteed Vegetables",
             "description": "Lean grilled fish paired with sautéed vegetables for a light and healthy lunch.",
             "calories": 400,
-            "image": "https://images.unsplash.com/photo-1606439986071-dff3c6bb9d74?w=800&auto=format&fit=crop"
+            "image": "https://media.istockphoto.com/id/1281404116/photo/fried-salmon-steaks-fried-potatoes-and-fresh-vegetables-on-wooden-table.jpg?s=612x612&w=0&k=20&c=3yGaSTFKy9FDo7QI83_yJG1g2jO4dfS9n4e9NbFijgI="
           },
           {
             "type": "Snacks",
             "name": "Mixed Nuts (Almonds, Cashews, Walnuts)",
             "description": "A small serving of mixed nuts for a healthy, filling snack.",
             "calories": 150,
-            "image": "https://images.unsplash.com/photo-1602569941687-2d61849cb28b?w=800&auto=format&fit=crop"
+            "image": "https://media.istockphoto.com/id/496689738/photo/assorted-nuts.jpg?s=612x612&w=0&k=20&c=lJhqPaHqwvXiDFNni5nB9EKgvYlqMEljI-0JzaB-ZNA="
           },
           {
             "type": "Dinner",
             "name": "Vegetable Curry with Cauliflower Rice",
             "description": "A flavorful vegetable curry served with cauliflower rice as a low-calorie alternative to regular rice.",
             "calories": 400,
-            "image": "https://images.unsplash.com/photo-1586432093591-2556e5d5688f?w=800&auto=format&fit=crop"
+            "image": "https://media.istockphoto.com/id/1405969710/photo/sweet-potato-and-cauliflower-curry-made-with-coconut-milk-top-view.jpg?s=612x612&w=0&k=20&c=INt3C7f17-2M3VHrx6n8zGu3392gmN_ENANRN-EDLRI="
           }
         ]
       }
