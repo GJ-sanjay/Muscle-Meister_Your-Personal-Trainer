@@ -31,7 +31,7 @@ const exercises = [
     description: "Lie on bench with eyes under bar. Grip slightly wider than shoulder-width.",
     sets: 4,
     reps: "8-12",
-    image: "https://images.unsplash.com/photo-1574680096145-d05b474e2155",
+    image: "https://www.trainheroic.com/wp-content/uploads/2023/07/23076-TH-Blog-2400px-jpg.webp",
     tips: ["Arch back slightly", "Drive through heels", "Touch mid-chest"],
     icon: faWeightHanging
   },
@@ -58,7 +58,7 @@ const exercises = [
     description: "Lie flat on bench with dumbbells over chest. Slightly bend elbows.",
     sets: 3,
     reps: "10-15",
-    image: "https://images.unsplash.com/photo-1580261450047-d34e04b9d7ce",
+    image: "https://st4.depositphotos.com/1662991/20870/i/450/depositphotos_208709192-stock-photo-side-view-female-client-doing.jpg",
     tips: ["Maintain chest stretch", "Hugging motion", "Constant tension"],
     icon: faBalanceScale
   },
@@ -67,7 +67,7 @@ const exercises = [
     description: "Set cable pulleys to highest position. Step forward with one foot.",
     sets: 3,
     reps: "10-15",
-    image: "https://images.unsplash.com/photo-1532384816664-01b8b7238c1d",
+    image: "https://www.shutterstock.com/image-photo/sporty-woman-exercising-on-multistation-600nw-2180444683.jpg",
     tips: ["Squeeze at bottom", "Control resistance", "Stretch at top"],
     icon: faBolt
   },
@@ -76,7 +76,7 @@ const exercises = [
     description: "Grip parallel bars with palms facing in. Lean forward 30°.",
     sets: 3,
     reps: "8-12",
-    image: "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e",
+    image: "https://www.dmoose.com/cdn/shop/articles/Chest_Dips.jpg?v=1654276876",
     tips: ["Chest forward", "Full range of motion", "No swinging"],
     icon: faShieldAlt
   },
@@ -94,7 +94,7 @@ const exercises = [
     description: "Lie perpendicular on bench with only shoulders supported.",
     sets: 3,
     reps: "10-12",
-    image: "https://images.unsplash.com/photo-1596357395217-80de13137e5a",
+    image: "https://www.shutterstock.com/image-vector/woman-doing-dumbbell-pullover-exercise-600nw-2085415906.jpg",
     tips: ["Stretch lats", "Controlled movement", "Hip stability"],
     icon: faWaveSquare
   },
@@ -103,7 +103,7 @@ const exercises = [
     description: "Adjust seat so handles align with mid-chest. Grip handles.",
     sets: 4,
     reps: "8-12",
-    image: "https://images.unsplash.com/photo-1579758626643-6a8f44e21052",
+    image: "https://st2.depositphotos.com/6644020/11603/i/450/depositphotos_116038932-stock-photo-woman-exercising-chest-press-workout.jpg",
     tips: ["Full extension", "Slow negative", "Mind-muscle connection"],
     icon: faMagnet
   },
@@ -112,7 +112,7 @@ const exercises = [
     description: "Sit with back flat against pad. Grip handles with elbows bent 90°.",
     sets: 3,
     reps: "10-15",
-    image: "https://images.unsplash.com/photo-1576678924439-cc7838b372d1",
+    image: "https://blog.myarsenalstrength.com/hs-fs/hubfs/whats-the-difference-between-this-2-machines-v0-byykr96toe9a1.jpg.webp",
     tips: ["Squeeze contraction", "Hold peak", "Light weight"],
     icon: faFistRaised
   },
@@ -139,7 +139,7 @@ const exercises = [
     description: "Set cables to shoulder height. Stand centered with slight lean.",
     sets: 3,
     reps: "10-15",
-    image: "https://images.unsplash.com/photo-1532384816664-01b8b7238c1d",
+    image: "https://liftmanual.com/wp-content/uploads/2023/04/cable-standing-fly.jpg",
     tips: ["Constant tension", "Squeeze across body", "Elbows fixed"],
     icon: faRing
   },
@@ -166,7 +166,7 @@ const exercises = [
     description: "Anchor barbell in landmine. Stand staggered stance.",
     sets: 3,
     reps: "8-12",
-    image: "https://images.unsplash.com/photo-1576678927484-cc9079570c76",
+    image: "https://cdn.shopify.com/s/files/1/1633/7705/files/landmine_exercises_for_chest_480x480.jpg",
     tips: ["Unilateral focus", "Core engagement", "45° press angle"],
     icon: faBolt
   },
@@ -193,7 +193,7 @@ const exercises = [
     description: "Place hands on medicine balls. Maintain balance while lowering.",
     sets: 3,
     reps: "10-15",
-    image: "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e",
+    image: "https://thumbs.dreamstime.com/b/fit-woman-exercising-medicine-ball-workout-out-arms-exercise-training-triceps-biceps-doing-push-ups-62690481.jpg",
     tips: ["Stabilizer activation", "Explosive push", "Core tension"],
     icon: faFistRaised
   },
@@ -202,7 +202,7 @@ const exercises = [
     description: "Start in push-up position. Lower quickly then explode upward.",
     sets: 3,
     reps: "8-10",
-    image: "https://images.unsplash.com/photo-1605291567423-72d1cde110eb",
+    image: "https://www.spartan.com/cdn/shop/articles/289b38125a83b8933ddd6e1b9e35de1f_1200x.jpg?v=1595863191",
     tips: ["Power development", "Soft landing", "Wrist protection"],
     icon: faFire
   },
